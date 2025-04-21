@@ -26,3 +26,6 @@ class Property(models.Model):
         ]
     )
 
+
+
+
