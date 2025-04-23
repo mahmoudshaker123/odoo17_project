@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
+                <field name="postcode"/>
                 <field name="date_availability"/>
                 <field name="selling_price"/>
                 <field name="garden"/>
@@ -58,10 +59,27 @@
         </field>
     </record>
 
+     <record id="property_view_search" model="ir.ui.view">
+        <field name="name">property search</field>
+        <field name="model">property</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="postcode"/>
+
+                <filter name="is_garden" string="With Garden" domain="[('garden','=',True)]" />
+                <filter name="is_not_garden" string="Without Garden" domain="[('garden','=',False)]" />
+                <filter name="is_garage" string="With Garage" domain="[('garage','=',True)]" />
+
+                <filter name="garden" string="Garden" context="{'group_by':'garden'}" />
+            </search>
+        </field>
+    </record>
+
     <record id="property_action" model="ir.actions.act_window">
-        <field name="name">P roperty</field>
+        <field name="name">Property</field>
         <field name="res_model">property</field>
-        <field name="view_mode">tree,form</field> <!-- مهم جدًا -->
+        <field name="view_mode">tree,form</field>
     </record>
 
     <menuitem
