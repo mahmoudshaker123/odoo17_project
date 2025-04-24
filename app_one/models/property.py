@@ -1,13 +1,15 @@
-from odoo import models , fields
+
+from odoo import models , fields , api
+from odoo.exceptions import ValidationError
 
 
 class Property(models.Model):
     _name = 'property'
     _description = 'Real Estate Property'
 
-    name = fields.Char()
+    name = fields.Char(required=1)
     description = fields.Text()
-    postcode = fields.Char()
+    postcode = fields.Char(required=1)
     date_availability = fields.Date()
     expected_price = fields.Float()
     selling_price = fields.Float()
@@ -23,9 +25,15 @@ class Property(models.Model):
             ('south', 'South'),
             ('east', 'East'),
             ('west', 'West')
-        ]
+        ],
+        default='south'
     )
 
+    @api.constrains('bedrooms')
+    def _check_bedrooms_greater_zero(self):
+        for rec in self:
+            if rec.bedrooms == 0:
+                raise ValidationError('please add valid number of bedrooms')
 
 
 
