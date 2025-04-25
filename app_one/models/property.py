@@ -29,6 +29,10 @@ class Property(models.Model):
         default='south'
     )
 
+    _sql_constraints = [
+        ('unique_name','unique("name")','This name is exist')
+    ]
+
     @api.constrains('bedrooms')
     def _check_bedrooms_greater_zero(self):
         for rec in self:
@@ -37,3 +41,27 @@ class Property(models.Model):
 
 
 
+
+    @api.model_create_multi
+    def create(self ,vals):
+        res = super(Property ,self).create(vals)
+        # logic
+        print("inside create method")
+        return res
+
+    @api.model
+    def _search(self, domain, offset=0, limit=None, order=None, access_rights_uid=None):
+        res = super(Property, self)._search( domain, offset=0, limit=None, order=None, access_rights_uid=None)
+        print("inside search method")
+        return res
+
+
+    def write(self, vals):
+        res =super(Property ,self).write(vals)
+        print("inside write method")
+        return res
+
+    def unlink(self):
+        res = super(Property ,self).unlink(self)
+        print("inside unlink method")
+        return res

@@ -31,7 +31,7 @@
                     </div>
                     <group>
                         <group string="General Info.">
-                             <field name="date_availability"/>
+                             <field name="date_availability" required="1"/>
                              <field name="selling_price"/>
                              <field name="postcode"/>
                              <field name="bedrooms"/>
@@ -47,9 +47,9 @@
                              <field name="garden_orientation"/>
 
                         </group>
-                             <field name="description"/>
-                             
+
                         <group>
+                              <field name="description" required="1"/>
 
                         </group>
 
