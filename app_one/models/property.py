@@ -29,6 +29,8 @@ class Property(models.Model):
         default='south'
     )
 
+    owner_id =fields.Many2one('owner')
+
     _sql_constraints = [
         ('unique_name','unique("name")','This name is exist')
     ]
@@ -40,28 +42,19 @@ class Property(models.Model):
                 raise ValidationError('please add valid number of bedrooms')
 
 
-
-
     @api.model_create_multi
-    def create(self ,vals):
-        res = super(Property ,self).create(vals)
-        # logic
-        print("inside create method")
+    def create(self, vals):
+        res = super(Property, self).create(vals)
         return res
-
-    @api.model
-    def _search(self, domain, offset=0, limit=None, order=None, access_rights_uid=None):
-        res = super(Property, self)._search( domain, offset=0, limit=None, order=None, access_rights_uid=None)
-        print("inside search method")
-        return res
-
 
     def write(self, vals):
-        res =super(Property ,self).write(vals)
-        print("inside write method")
+        res = super(Property, self).write(vals)
+        return res
+
+    def _search(self, domain, offset=0, limit=None, order=None, access_rights_uid=None):
+        res = super(Property, self)._search(domain, offset=0, limit=None, order=None, access_rights_uid=None)
         return res
 
     def unlink(self):
-        res = super(Property ,self).unlink(self)
-        print("inside unlink method")
+        res = super(Property, self).unlink()
         return res
