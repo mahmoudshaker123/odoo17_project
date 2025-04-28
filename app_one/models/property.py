@@ -29,7 +29,7 @@ class Property(models.Model):
         default='south'
     )
 
-    owner_id =fields.Many2one('owner')
+    owner_id = fields.Many2one('owner')
 
     _sql_constraints = [
         ('unique_name','unique("name")','This name is exist')
