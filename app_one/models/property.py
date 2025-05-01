@@ -1,3 +1,4 @@
+from email.policy import default
 
 from odoo import models , fields , api
 from odoo.exceptions import ValidationError
@@ -31,6 +32,14 @@ class Property(models.Model):
 
     owner_id = fields.Many2one('owner')
     tag_ids = fields.Many2many('tag')
+
+    state = fields.Selection([
+        ('draft','Draft'),
+        ('pending','Pending'),
+        ('sold','Sold'),
+    ],
+        default='draft'
+    )
 
     _sql_constraints = [
         ('unique_name','unique("name")','This name is exist')
