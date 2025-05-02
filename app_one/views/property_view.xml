@@ -26,6 +26,7 @@
             <form>
                 <sheet>
                     <header>
+                        <button name="action_draft" type="object" class="btn-primary" string="Set To Draft"/>
                         <field name="state" widget="statusbar"/>
                         
                     </header>

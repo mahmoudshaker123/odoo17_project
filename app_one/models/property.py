@@ -52,19 +52,25 @@ class Property(models.Model):
                 raise ValidationError('please add valid number of bedrooms')
 
 
-    @api.model_create_multi
-    def create(self, vals):
-        res = super(Property, self).create(vals)
-        return res
+    def action_draft(self):
+        for rec in self:
+            print("inside draft actions")
+            rec.state= 'draft'
 
-    def write(self, vals):
-        res = super(Property, self).write(vals)
-        return res
 
-    def _search(self, domain, offset=0, limit=None, order=None, access_rights_uid=None):
-        res = super(Property, self)._search(domain, offset=0, limit=None, order=None, access_rights_uid=None)
-        return res
-
-    def unlink(self):
-        res = super(Property, self).unlink()
-        return res
+    # @api.model_create_multi
+    # def create(self, vals):
+    #     res = super(Property, self).create(vals)
+    #     return res
+    #
+    # def write(self, vals):
+    #     res = super(Property, self).write(vals)
+    #     return res
+    #
+    # def _search(self, domain, offset=0, limit=None, order=None, access_rights_uid=None):
+    #     res = super(Property, self)._search(domain, offset=0, limit=None, order=None, access_rights_uid=None)
+    #     return res
+    #
+    # def unlink(self):
+    #     res = super(Property, self).unlink()
+    #     return res
