@@ -14,6 +14,7 @@ class Property(models.Model):
     date_availability = fields.Date()
     expected_price = fields.Float()
     selling_price = fields.Float()
+    diff = fields.Float(compute='_compute_diff' )
     bedrooms = fields.Integer()
     living_area = fields.Integer()
     facades = fields.Integer()
@@ -45,6 +46,20 @@ class Property(models.Model):
         ('unique_name','unique("name")','This name is exist')
     ]
 
+    @api.depends('expected_price','selling_price')
+    def _compute_diff(self):
+        for rec in self:
+            rec.diff = rec.expected_price - rec.selling_price
+
+
+    @api.onchange('expected_price')
+    def _onchange_expected_price(self):
+        for rec in self:
+            print("inside _onchange_expected_price method")
+            return{
+                'warning': {'title':'warning' , 'message':'negative_value. ' , 'type':'notification'}
+            }
+
     @api.constrains('bedrooms')
     def _check_bedrooms_greater_zero(self):
         for rec in self:
@@ -52,10 +67,22 @@ class Property(models.Model):
                 raise ValidationError('please add valid number of bedrooms')
 
 
+
     def action_draft(self):
         for rec in self:
             print("inside draft actions")
             rec.state= 'draft'
+
+    def action_pending(self):
+        for rec in self:
+            print("inside pending actions")
+            rec.state= 'pending'
+
+    def action_sold(self):
+        for rec in self:
+            print("inside sold actions")
+            rec.state= 'sold'
+
 
 
     # @api.model_create_multi
