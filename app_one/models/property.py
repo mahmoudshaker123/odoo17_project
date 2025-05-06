@@ -6,15 +6,16 @@ from odoo.exceptions import ValidationError
 
 class Property(models.Model):
     _name = 'property'
+    _inherit =['mail.thread','mail.activity.mixin']
     _description = 'Real Estate Property'
 
     name = fields.Char(required=1)
-    description = fields.Text()
+    description = fields.Text(tracking=1)
     postcode = fields.Char(required=1)
-    date_availability = fields.Date()
+    date_availability = fields.Date(tracking=1)
     expected_price = fields.Float()
     selling_price = fields.Float()
-    diff = fields.Float(compute='_compute_diff' )
+    diff = fields.Float(compute='_compute_diff')
     bedrooms = fields.Integer()
     living_area = fields.Integer()
     facades = fields.Integer()
@@ -33,8 +34,8 @@ class Property(models.Model):
 
     owner_id = fields.Many2one('owner')
     tag_ids = fields.Many2many('tag')
-    owner_address = fields.Char()
-    owner_phone = fields.Char()
+    owner_address = fields.Char(related='owner_id.address')
+    owner_phone = fields.Char(related='owner_id.phone')
 
 
     state = fields.Selection([
