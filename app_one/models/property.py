@@ -37,6 +37,8 @@ class Property(models.Model):
     owner_address = fields.Char(related='owner_id.address')
     owner_phone = fields.Char(related='owner_id.phone')
 
+    line_ids=fields.One2many('property.line','property_id')
+
 
     state = fields.Selection([
         ('draft','Draft'),
@@ -105,3 +107,12 @@ class Property(models.Model):
     # def unlink(self):
     #     res = super(Property, self).unlink()
     #     return res
+
+
+
+class PropertyLine(models.Model):
+    _name = 'property.line'
+
+    property_id= fields.Many2one('property')
+    area = fields.Float()
+    description = fields.Char()
