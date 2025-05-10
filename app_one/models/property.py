@@ -45,6 +45,7 @@ class Property(models.Model):
         ('draft','Draft'),
         ('pending','Pending'),
         ('sold','Sold'),
+        ('closed','Closed'),
     ],
         default='draft'
     )
@@ -89,6 +90,10 @@ class Property(models.Model):
         for rec in self:
             print("inside sold actions")
             rec.state= 'sold'
+
+    def action_closed(self):
+        for rec in self:
+            rec.state= 'closed'
 
 
 
