@@ -132,3 +132,5 @@ class PropertyLine(models.Model):
     property_id= fields.Many2one('property')
     area = fields.Float()
     description = fields.Char()
+
+
