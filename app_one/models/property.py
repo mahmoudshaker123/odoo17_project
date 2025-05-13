@@ -9,6 +9,7 @@ class Property(models.Model):
     _inherit =['mail.thread','mail.activity.mixin']
     _description = 'Real Estate Property'
 
+    ref = fields.Char(default='New' , readonly=True)
     name = fields.Char(required=1)
     description = fields.Text(tracking=1)
     postcode = fields.Char(required=1)
@@ -104,6 +105,18 @@ class Property(models.Model):
         for rec in property_ids:
             if rec.expected_selling_date and rec.expected_selling_date < fields.date.today():
                 rec.is_late = True
+
+
+    def action(self):
+        print(self.env.user.name)
+
+    @api.model
+    def create(self,vals):
+        res = super(Property , self).create(vals)
+        if res.ref =='New':
+            res.ref = self.env['ir.sequence'].next_by_code('property_seq')
+        return res
+
 
 
 

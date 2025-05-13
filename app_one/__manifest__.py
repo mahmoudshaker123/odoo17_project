@@ -9,6 +9,7 @@
                 ],
     'data': [
         'security/ir.model.access.csv',
+        'data/sequence.xml',
         'views/base_menu.xml',
         'views/property_view.xml',
         'views/owner_view.xml',
@@ -17,6 +18,7 @@
         'views/res_partner_view.xml',
         'views/building_view.xml',
         'reports/prorperty_report.xml',
+
 
 
 
