@@ -18,6 +18,7 @@
         'views/res_partner_view.xml',
         'views/building_view.xml',
         'reports/prorperty_report.xml',
+        'views/property_history_view.xml',
 
 
 
