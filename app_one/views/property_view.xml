@@ -52,6 +52,8 @@
                     </div>
                     <group>
                         <group string="General Info.">
+                             <field name="create_time" readonly="1"/>
+                             <field name="next_time"/>
                              <field name="date_availability" required="1" readonly="state == 'closed'"/>
                              <field name="expected_selling_date" readonly="state == 'closed'"/>
                              <field name="is_late" invisible="1" readonly="state == 'closed'"/>
@@ -136,6 +138,16 @@
         <field name="state">code</field>
         <field name="code">
             action = records.action_closed()
+        </field>
+    </record>
+
+    <record id="property_change_state_server_action" model="ir.actions.server">
+        <field name="name">Change State</field>
+        <field name="model_id" ref="model_property"/>
+        <field name="binding_model_id" ref="model_property"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_open_change_state_wizard()
         </field>
     </record>
 

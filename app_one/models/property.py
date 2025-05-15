@@ -2,7 +2,7 @@ from email.policy import default
 
 from odoo import models , fields , api
 from odoo.exceptions import ValidationError
-
+from datetime import timedelta
 
 class Property(models.Model):
     _name = 'property'
@@ -26,6 +26,8 @@ class Property(models.Model):
     garden = fields.Boolean()
     garden_area = fields.Integer()
     active = fields.Boolean(default=True)
+    create_time=fields.Datetime(default=fields.Datetime.now())
+    next_time=fields.Datetime(compute='_compute_next_time')
 
     garden_orientation = fields.Selection(
         [
@@ -57,6 +59,14 @@ class Property(models.Model):
     _sql_constraints = [
         ('unique_name','unique("name")','This name is exist')
     ]
+
+    @api.depends('create_time')
+    def _compute_next_time(self):
+        for rec in self:
+            if rec.create_time:
+                rec.next_time = rec.create_time + timedelta(hours=6)
+            else:
+                rec.next_time = False
 
     @api.depends('expected_price','selling_price')
     def _compute_diff(self):
@@ -119,14 +129,22 @@ class Property(models.Model):
         return res
 
 
-    def create_history_record(self , old_state , new_state):
+    def create_history_record(self , old_state , new_state ,reason=""):
         for rec in self:
             rec.env['property.history'].create({
                 'user_id':rec.env.uid,
                 'property_id':rec.id,
                 'old_state':old_state,
                 'new_state':new_state,
+                'reason':reason or "",
+                'line_ids':[(0, 0, {'description':line.description, 'area':line.area})  for line in rec.line_ids],
             })
+
+
+    def action_open_change_state_wizard(self):
+        action = self.env['ir.actions.act_window']._for_xml_id('app_one.change_state_wizard_action')
+        action['context']={'default_property_id':self.id}
+        return action
 
 
 

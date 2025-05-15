@@ -26,8 +26,19 @@
                         <group>
                             <field name="old_state"/>
                             <field name="new_state"/>
+                            <field name="reason"/>
                         </group>
                     </group>
+                     <notebook>
+                            <page string="Bedrooms">
+                                <field name="line_ids" readonly="1">
+                                    <tree>
+                                         <field name="description"/>
+                                         <field name="area"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                 </sheet>
             </form>
         </field>
