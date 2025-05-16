@@ -10,7 +10,7 @@ class Property(models.Model):
     _description = 'Real Estate Property'
 
     ref = fields.Char(default='New' , readonly=True)
-    name = fields.Char(required=1)
+    name = fields.Char(required=1  , translate=True)
     description = fields.Text(tracking=1)
     postcode = fields.Char(required=1)
     date_availability = fields.Date(tracking=1)
