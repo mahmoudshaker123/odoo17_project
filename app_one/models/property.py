@@ -11,7 +11,7 @@ class Property(models.Model):
 
     ref = fields.Char(default='New' , readonly=True)
     name = fields.Char(required=1  , translate=True)
-    description = fields.Text(tracking=1)
+    description = fields.Text(tracking=1 , groups="app_one.property_manager_group")
     postcode = fields.Char(required=1)
     date_availability = fields.Date(tracking=1)
     expected_selling_date = fields.Date(tracking=1)
