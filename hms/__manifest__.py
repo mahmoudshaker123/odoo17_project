@@ -9,6 +9,8 @@
                 ],
     'data': [
         'views/hospital_patient_views.xml',
+        'views/hospital_doctor_views.xml',
+        'views/hospital_department_views.xml',
         ],
 
     'application': True,

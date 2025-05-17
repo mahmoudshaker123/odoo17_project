@@ -16,11 +16,47 @@
 
         </record>
 
+         <record id="patient_form_view" model="ir.ui.view">
+            <field name="name">Patient Form View</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                        <group string="General Info.">
+                            <field name="first_name"/>
+                            <field name="last_name"/>
+                            <field name="address"/>
+                            <field name="age"/>
+                            <field name="department_id"/>
+                            <field name="department_capacity"/>
+                            <field name="doctor_ids" widget="many2many_tags"/>
+                            <field name="state"/>
+                        </group>
+
+                            <group string="Additional Info.">
+                                <field name="birth_date"/>
+                                <field name="history"/>
+                                <field name="cr_ratio"/>
+                                <field name="blood_type"/>
+                                <field name="pcr"/>
+                                <field name="image"/>
+
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
         <record id="hospital_action" model="ir.actions.act_window">
             <field name="name">HMS Patient</field>
             <field name="res_model">hms.patient</field>
             <field name="view_mode">tree,form</field>
         </record>
+
+
 
         <menuitem id="hospital_root" name="HMS"/>
         <menuitem id="hospital_patient_menu" name="Patients"

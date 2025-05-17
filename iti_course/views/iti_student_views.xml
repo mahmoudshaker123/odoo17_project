@@ -15,6 +15,63 @@
 
         </record>
 
+        <record id="students_form_view" model="ir.ui.view">
+            <field name="name">Students Form View</field>
+            <field name="model">iti.student</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group string="General Info.">
+                                <field name="gender"/>
+                                <field name="salary"/>
+                                <field name="birth_date"/>
+                                <field name="age"/>
+                                <field name="address"/>
+                                <field name="skill_ids" widget="many2many_tags"/>
+
+                            </group>
+
+                            <group string="Additional Info.">
+                                <field name="level"/>
+                                <field name="image" />
+                                <field name="login_time"/>
+                                <field name="accepted"/>
+                                <field name="track_id" domain="[('is_open','=',True)]"/>
+                                <field name="track_capacity"/>
+
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="CV">
+                                <field name="cv"/>
+
+                            </page>
+                            <page string="Course Grades">
+                                <field name="grade_ids">
+                                    <tree>
+                                        <field name="course_id"/>
+                                        <field name="grade"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+
+                        </notebook>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
         <record id="students_action" model="ir.actions.act_window" >
             <field name="name">Students</field>
             <field name="res_model">iti.student</field>
