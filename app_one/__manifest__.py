@@ -1,5 +1,4 @@
 
-
 {
     'name': "App One",
     'author': "Mahmoud Shaker",
