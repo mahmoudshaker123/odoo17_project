@@ -7,6 +7,7 @@ class ItiStudent(models.Model):
     _name = 'iti.student'
 
     name=fields.Char(required=True)
+    email=fields.Char()
     birth_date=fields.Date()
     age = fields.Integer(string="Age")
     salary=fields.Float()
@@ -24,6 +25,42 @@ class ItiStudent(models.Model):
     track_capacity = fields.Integer(related="track_id.capacity")
     skill_ids= fields.Many2many('iti.skill')
     grade_ids = fields.One2many('student.course.line' ,'student_id')
+    state = fields.Selection([
+        ('applied','Applied'),
+        ('first','First Interview'),
+        ('second','Second Interview'),
+        ('passed', 'Passed'),
+        ('rejected','Rejected'),
+    ],
+        default='applied'
+    )
+
+    @api.model
+    def create(self, vals):
+        name_split = vals['name'].split()
+        vals['email']= f"{name_split[0][0]}{name_split[1]}@gmail.com"
+        return super().create(vals)
+
+    def write(self, vals):
+        name_split = vals['name'].split()
+        vals['email'] = f"{name_split[0][0]}{name_split[1]}@gmail.com"
+        return super().write(vals)
+
+    def set_first_action(self):
+        for rec in self:
+            rec.state = 'first'
+
+    def set_second_action(self):
+        for rec in self:
+            rec.state = 'second'
+
+    def set_passed_action(self):
+        for rec in self:
+            rec.state = 'passed'
+
+    def set_rejected_action(self):
+        for rec in self:
+            rec.state = 'rejected'
 
     @api.onchange("gender")
     def _onchange_gender(self):
@@ -38,6 +75,9 @@ class ItiStudent(models.Model):
         if self.birth_date:
             today = date.today()
             self.age = today.year - self.birth_date.year
+
+
+
 
 
 class ItiCourse(models.Model):
@@ -56,3 +96,4 @@ class StudentCourseGrades(models.Model):
         ('good','Good'),
         ('very_good','Very Good'),
     ])
+
