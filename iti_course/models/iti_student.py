@@ -3,6 +3,9 @@ from dateutil.utils import today
 from odoo import fields , models , api
 from datetime import date
 
+from odoo.exceptions import UserError
+
+
 class ItiStudent(models.Model):
     _name = 'iti.student'
 
@@ -11,6 +14,7 @@ class ItiStudent(models.Model):
     birth_date=fields.Date()
     age = fields.Integer(string="Age")
     salary=fields.Float()
+    tax = fields.Float(compute="calc_tax" , store=True)
     address = fields.Text()
     gender = fields.Selection([
         ('male','Male'),
@@ -35,6 +39,21 @@ class ItiStudent(models.Model):
         default='applied'
     )
 
+    @api.depends('salary')
+    def calc_tax(self):
+        for rec in self:
+            if rec.salary:
+                rec.tax = rec.salary * 0.20
+
+
+
+
+    @api.constrains('salary')
+    def check_salary(self):
+        for rec in self:
+            if rec.salary > 10000:
+                raise UserError("Salary is higher than 10000")
+
     @api.model
     def create(self, vals):
         name_split = vals['name'].split()
@@ -42,9 +61,18 @@ class ItiStudent(models.Model):
         return super().create(vals)
 
     def write(self, vals):
-        name_split = vals['name'].split()
-        vals['email'] = f"{name_split[0][0]}{name_split[1]}@gmail.com"
+        if 'name' in vals:
+            name_split = vals['name'].split()
+            vals['email'] = f"{name_split[0][0]}{name_split[1]}@gmail.com"
         return super().write(vals)
+
+    def unlink(self):
+        for rec in self:
+            if rec.state not in ['passed','rejected']:
+                raise UserError("You can't delete passed / rejected students")
+
+        return super().unlink()
+
 
     def set_first_action(self):
         for rec in self:

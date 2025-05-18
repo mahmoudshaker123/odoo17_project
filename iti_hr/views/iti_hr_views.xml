@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="iti_hr_form_inherit" model="ir.ui.view">
+            <field name="name">Hr Employee Inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id"  ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="work_email" position="after">
+                    <field name="military_certificate"/>
+                </field>
+            </field>
+
+        </record>
+    </data>
+</odoo>

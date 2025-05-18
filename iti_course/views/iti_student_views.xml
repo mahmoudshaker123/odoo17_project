@@ -7,6 +7,9 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
+                    <field name="state"/>
+                    <field name="salary"/>
+                    <field name="tax"/>
                     <field name="address"/>
                     <field name="level"/>
                 </tree>
@@ -39,6 +42,7 @@
                                 <field name="email"/>
                                 <field name="gender"/>
                                 <field name="salary"/>
+                                <field name="tax"/>
                                 <field name="state"/>
                                 <field name="birth_date"/>
                                 <field name="age"/>
