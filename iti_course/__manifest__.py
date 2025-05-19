@@ -7,8 +7,11 @@
     'depends': ['base'
                 ],
     'data': [
+        'security/iti_security.xml',
+        'security/ir.model.access.csv',
         'views/iti_student_views.xml',
         'views/iti_track_views.xml',
+        'reports/iti_students_reports.xml',
 ],
 
     'installable': True,

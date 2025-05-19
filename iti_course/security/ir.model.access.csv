@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_iti_student,access_iti_student,model_iti_student,iti_course.iti_normal_group,1,0,0,0
+access_iti_student,access_iti_student,model_iti_student,iti_course.iti_manager_group,1,1,1,1
+access_iti_student,access_iti_student,model_iti_student,,1,0,0,0
+

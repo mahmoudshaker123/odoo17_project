@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id="iti_normal_group" model="res.groups">
+            <field name="name">ITI Normal User</field>
+        </record>
+
+         <record id="iti_manager_group" model="res.groups">
+            <field name="name">ITI Manager User</field>
+        </record>
+    </data>
+</odoo>

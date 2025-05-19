@@ -1,0 +1,86 @@
+<odoo>
+    <data>
+        <record id="student_report_action" model="ir.actions.report">
+            <field name="name">Student Report</field>
+            <field name="model">iti.student</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="binding_model_id" ref="model_iti_student"/>
+            <field name="binding_type">report</field>
+            <field name="report_name">iti_course.student_report_template</field>
+        </record>
+
+        <template id="student_report_template">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                   <style type="text/css">
+                h1 {
+                    text-align: center;
+                    font-size: 26px;
+                    color: #34495e;
+                    margin-bottom: 30px;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                }
+
+                thead th {
+                    background-color: #2c3e50;
+                    color: #ecf0f1;
+                    text-align: left;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                }
+
+                tbody td {
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                }
+
+                tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+
+                td.label {
+                    font-weight: bold;
+                    background-color: #f2f2f2;
+                }
+                    </style>
+                    <t t-foreach="docs" t-as="o">
+                        <h1>Student Report</h1>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th colspan="4">General Information</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Name</td>
+                                    <td><t t-esc="o.name"/></td>
+                                    <td>Salary</td>
+                                    <td><t t-esc="o.salary"/></td>
+                                </tr>
+                            </tbody>
+                            <thead>
+                                <tr>
+                                    <th colspan="4">Additional Information</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>State</td>
+                                    <td><t t-esc="o.state"/></td>
+                                    <td>Address</td>
+                                    <td><t t-esc="o.address"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
