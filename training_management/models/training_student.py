@@ -7,4 +7,10 @@ class TrainingStudent(models.Model):
     name=fields.Char()
     email=fields.Char()
     phone=fields.Char()
-    course_ids=fields.Many2many('training.course')
+    course_ids = fields.Many2many(
+                    'training.course',
+                         'training_course_student_rel',
+                        'student_id',
+                        'course_id',
+                        string="Courses"
+                    )

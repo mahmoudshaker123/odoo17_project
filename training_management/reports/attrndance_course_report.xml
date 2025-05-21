@@ -1,0 +1,6 @@
+<odoo>
+    <record id="attendance_course_report_record" model="ir.actions.report">
+        <field
+
+    </record>
+</odoo>

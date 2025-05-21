@@ -1,0 +1,45 @@
+<odoo>
+    <record id="training_attendance_tree_view" model="ir.ui.view">
+        <field name="name">Attendance Tree</field>
+        <field name="model">training.attendance</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="student_id"/>
+                <field name="course_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+
+    </record>
+    <record id="training_attendance_form_view" model="ir.ui.view">
+        <field name="name">Attendance Form</field>
+        <field name="model">training.attendance</field>
+        <field name="arch" type="xml">
+            <form>
+            <sheet>
+                <group>
+                    <field name="student_id"/>
+                    <field name="course_id"/>
+                    <field name="date"/>
+                    <field name="state"/>
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="training_attendance_actions" model="ir.actions.act_window">
+        <field name="name">Attendance</field>
+        <field name="res_model">training.attendance</field>
+        <field name="view_mode">tree,form</field>
+
+    </record>
+
+     <menuitem
+            id="training_attendance_menu"
+            name="Attendance"
+            parent="training_management_root_menu"
+            action="training_attendance_actions"
+    />
+</odoo>

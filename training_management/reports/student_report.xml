@@ -1,0 +1,90 @@
+<odoo>
+    <record id="students_record" model="ir.actions.report">
+        <field name="name">Course Attendance Report</field>
+        <field name="model">training.course</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="binding_model_id" ref="model_training_course"/>
+        <field name="binding_type">report</field>
+        <field name="report_name">training_management.course_attendance_report_template</field>
+    </record>
+
+    <template id="course_attendance_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <style type="text/css">
+                    body {
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        font-size: 16px;
+                        color: #333;
+                        margin: 20px;
+                    }
+                    h2 {
+                        color: #004080;
+                        border-bottom: 3px solid #004080;
+                        padding-bottom: 8px;
+                        margin-bottom: 20px;
+                        font-size: 24px;
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-bottom: 20px;
+                    }
+                    th, td {
+                        border: 1px solid #ddd;
+                        padding: 12px 18px;
+                        text-align: left;
+                        vertical-align: middle;
+                        font-size: 16px;
+                    }
+                    th {
+                        background-color: #004080;
+                        color: white;
+                        font-weight: bold;
+                    }
+                    tr:nth-child(even) {
+                        background-color: #f9f9f9;
+                    }
+                    .section-title {
+                        color: #004080;
+                        margin: 20px 0 10px 0;
+                        font-size: 18px;
+                        font-weight: bold;
+                        border-bottom: 2px solid #004080;
+                        padding-bottom: 5px;
+                    }
+                </style>
+
+                <t t-foreach="docs" t-as="course">
+                    <div class="page">
+                        <h2>تقرير الدورة التدريبية</h2>
+                        <p><strong>اسم الدورة:</strong> <t t-esc="course.name"/></p>
+                        <p><strong>المدرب:</strong> <t t-esc="course.instructor_id.name"/></p>
+                        <p><strong>عدد الطلاب:</strong> <t t-esc="len(course.student_ids)"/></p>
+
+                        <p class="section-title">قائمة الطلاب:</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الاسم</th>
+                                    <th>البريد الإلكتروني</th>
+                                    <th>رقم الهاتف</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="course.student_ids" t-as="student">
+                                    <tr>
+                                        <td><t t-esc="student.name"/></td>
+                                        <td><t t-esc="student.email"/></td>
+                                        <td><t t-esc="student.phone"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+
+            </t>
+        </t>
+    </template>
+</odoo>

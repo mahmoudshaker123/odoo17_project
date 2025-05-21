@@ -1,6 +1,6 @@
 from  odoo import  fields , models
 
-class TraniningInstructor(models.Model):
+class TrainingInstructor(models.Model):
     _name = 'training.instructor'
 
     name = fields.Char(required=True)
