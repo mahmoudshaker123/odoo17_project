@@ -26,6 +26,7 @@
                         <group string="General Info.">
                             <field name="first_name"/>
                             <field name="last_name"/>
+                            <field name="email"/>
                             <field name="address"/>
                             <field name="age"/>
                             <field name="department_id"/>

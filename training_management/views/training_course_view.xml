@@ -26,6 +26,7 @@
                     <field name="date"/>
                     <field name="description"/>
                     <field name="student_ids"/>
+                    <field name="attendance_ids"/>
                 </group>
             </sheet>
             </form>

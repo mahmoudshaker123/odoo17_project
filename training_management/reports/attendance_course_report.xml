@@ -1,0 +1,83 @@
+<odoo>
+    <record id="attendance_course_report_record" model="ir.actions.report">
+        <field name="name">Attendance Report</field>
+        <field name="model">training.course</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="binding_model_id" ref="model_training_course"/>
+        <field name="binding_type" >report</field>
+        <field name="report_name">training_management.attendance_report_template</field>
+
+    </record>
+
+    <template id="attendance_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <style type="text/css">
+                        .report-title {
+                            text-align: center;
+                            font-size: 22px;
+                            font-weight: bold;
+                            margin-bottom: 20px;
+                        }
+
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                        }
+
+                        th, td {
+                            border: 1px solid #000;
+                            padding: 8px;
+                            text-align: center;
+                            font-size: 14px;
+                        }
+
+                        th {
+                            background-color: #eee;
+                            font-weight: bold;
+                        }
+
+                        .page {
+                            margin-bottom: 30px;
+                            padding: 10px;
+                        }
+
+                        p {
+                            font-size: 16px;
+                            margin: 5px 0;
+                        }
+                    </style>
+
+                <t t-foreach="docs" t-as="course">
+                    <div class="page">
+                        <h2 class="report-title">تقرير الحضور للدورة التدريبية</h2>
+                        <p><strong>اسم الدورة : </strong><t t-esc="course.name"/></p>
+                        <p><strong>التاريخ : </strong><t t-esc="course.date"/></p>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>اسم الطالب</th>
+                                    <th>حالة الحضور </th>
+                                    <th>التاريخ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="course.attendance_ids" t-as="att">
+                                    <tr>
+                                        <td><t t-esc="att.student_id.name"/> </td>
+                                        <td><t t-esc="att.state"/> </td>
+                                        <td><t t-esc="att.date"/> </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </t>
+            </t>
+        </t>
+
+    </template>
+</odoo>

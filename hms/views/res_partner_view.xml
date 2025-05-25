@@ -1,0 +1,26 @@
+<odoo>
+    <record id="view_partner_patient_form_inherit" model="ir.ui.view">
+        <field name="name">view partner patient form inherit sales purchases</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales_purchases']/group[@name='container_row_2']/group[@name='misc']/field[@name='industry_id']" position="after">
+                <field name="related_patient_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_tree_inherit_website" model="ir.ui.view">
+        <field name="name">res.partner.tree.inherit.website</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" position="after">
+                    <field name="website"/>
+                </field>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

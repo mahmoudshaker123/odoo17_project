@@ -16,5 +16,10 @@ class TrainingCourse(models.Model):
         'student_id',
         string="Students"
     )
+    attendance_ids = fields.One2many(
+        'training.attendance',
+        'course_id',
+        string="Attendances"
+    )
 
 
