@@ -1,0 +1,77 @@
+<odoo>
+    <record  id="patient_report" model="ir.actions.report">
+        <field name="name">Patient Report</field>
+        <field name="model">hms.patient</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="binding_model_id" ref="model_hms_patient"/>
+        <field name="binding_type">report</field>
+        <field name="report_name">hms.patient_report_template</field>
+    </record>
+
+    <template id="patient_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <style type="text/css">
+                    h1 {
+                        color: #2F4F4F;
+                        font-family: 'Arial Black', Arial, sans-serif;
+                        text-align: center;
+                        margin-bottom: 25px;
+                    }
+                    p {
+                        font-size: 14px;
+                        font-family: 'Arial', sans-serif;
+                        margin: 5px 0;
+                        color: #333333;
+                    }
+                    strong {
+                        color: #0B3B17;
+                    }
+                    ul {
+                        list-style-type: disc;
+                        margin-left: 20px;
+                        padding-left: 0;
+                        color: #555555;
+                        font-family: 'Arial', sans-serif;
+                    }
+                    li {
+                        margin-bottom: 4px;
+                    }
+                    img {
+                        display: block;
+                        margin: 0 auto 20px auto;
+                        border-radius: 8px;
+                        border: 1px solid #ddd;
+                    }
+                </style>
+
+                <t t-foreach="docs" t-as="o">
+                    <h1>Patient Status Report</h1>
+
+                    <t t-if="o.image">
+                        <img t-att-src="'data:image/png;base64,%s' % o.image" width="120" height="120"/>
+
+                    </t>
+
+
+
+
+                    <p><strong>Name: </strong><t t-esc="o.first_name"/> <t t-esc="o.last_name"/> </p>
+                    <p><strong>Age: </strong><t t-esc="o.age"/></p>
+                    <p><strong>Department: </strong><t t-esc="o.department_id.name"/></p>
+                    <p><strong>Doctors: </strong></p>
+                    <ul>
+                        <t t-foreach="o.doctor_ids" t-as="doctor">
+                            <li><t t-esc="doctor.first_name"/> <t t-esc="doctor.last_name"/></li>
+                        </t>
+                    </ul>
+                    <p><strong>Birth date: </strong><t t-esc="o.birth_date"/></p>
+                    <p><strong>CR Ratio: </strong><t t-esc="o.cr_ratio"/></p>
+                    <p><strong>Blood Type: </strong><t t-esc="o.blood_type"/></p>
+                    <p><strong>Email: </strong><t t-esc="o.email"/></p>
+
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

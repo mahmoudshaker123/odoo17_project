@@ -36,7 +36,7 @@ class HmsPatient(models.Model):
     ], string="Blood Type")
 
     pcr = fields.Boolean()
-    image = fields.Image()
+    image = fields.Binary(string="Image", attachment=False)
     address = fields.Text()
     age= fields.Integer(compute='_compute_age', store=True)
 

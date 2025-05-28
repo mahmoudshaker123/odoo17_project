@@ -19,7 +19,7 @@
         'views/building_view.xml',
         'views/property_history_view.xml',
         'wizard/change_state_wizard_view.xml',
-        'reports/property_report.xml',
+        'reports/prorperty_report.xml',
 
 
 

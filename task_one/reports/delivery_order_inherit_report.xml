@@ -1,0 +1,14 @@
+<odoo>
+    <template id="report_invoice_add_delivery_order"
+              inherit_id="account.report_invoice_document">
+
+        <xpath expr="//div[@name='origin']" position="after">
+            <div t-if="o.delivery_order_id"
+                 t-attf-class="#{'col-auto col-3 mw-100' if report_type != 'html' else 'col'} mb-2">
+                <strong>Delivery Order:</strong><br/>
+                <span t-esc="o.delivery_order_id.name"/>
+            </div>
+        </xpath>
+
+    </template>
+</odoo>

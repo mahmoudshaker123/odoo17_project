@@ -10,9 +10,9 @@ class Property(models.Model):
     _description = 'Real Estate Property'
 
     ref = fields.Char(default='New' , readonly=True)
-    name = fields.Char(required=1  , translate=True)
+    name = fields.Char(required=True  , translate=True)
     description = fields.Text(tracking=1 , groups="app_one.property_manager_group")
-    postcode = fields.Char(required=1)
+    postcode = fields.Char(required=True)
     date_availability = fields.Date(tracking=1)
     expected_selling_date = fields.Date(tracking=1)
     is_late = fields.Boolean()
@@ -142,7 +142,7 @@ class Property(models.Model):
 
 
     def action_open_change_state_wizard(self):
-        action = self.env['ir.actions.act_window']._for_xml_id('app_one.change_state_wizard_action')
+        action = self.env['ir.actions.actions']._for_xml_id('app_one.change_state_wizard_action')
         action['context']={'default_property_id':self.id}
         return action
 
@@ -174,4 +174,6 @@ class PropertyLine(models.Model):
     property_id= fields.Many2one('property')
     area = fields.Float()
     description = fields.Char()
+
+
 

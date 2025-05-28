@@ -24,9 +24,9 @@ class ResPartner(models.Model):
                 raise UserError("You cannot delete a customer linked to a patient.")
         return super(ResPartner, self).unlink()
 
-    @api.constrains('vat', 'customer_rank')
-    def _check_tax_id_for_customers(self):
-        for rec in self:
-            if rec.customer_rank > 0: 
-                if not rec.vat:
-                    raise ValidationError("The Tax ID (VAT) field is mandatory for CRM Customers.")
+    # @api.constrains('vat', 'customer_rank')
+    # def _check_tax_id_for_customers(self):
+    #     for rec in self:
+    #         if rec.customer_rank > 0:
+    #             if not rec.vat:
+    #                 raise ValidationError("The Tax ID (VAT) field is mandatory for CRM Customers.")
