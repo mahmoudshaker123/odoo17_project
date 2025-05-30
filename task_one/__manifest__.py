@@ -8,6 +8,7 @@
     'data': [
         'views/sale_order_view.xml',
         'reports/delivery_order_inherit_report.xml',
+        'reports/custom_invoice_report.xml',
 
         ],
     'installable': True,

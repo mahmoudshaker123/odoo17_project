@@ -16,4 +16,3 @@ class SaleOrder(models.Model):
             if delivery_order:
                 order.delivery_order_id = delivery_order.id
         return res
-
