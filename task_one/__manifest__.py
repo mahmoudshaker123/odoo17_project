@@ -6,7 +6,7 @@
     'depends': ['base','sale_management','sale','stock',
                 ],
     'data': [
-        'views/sale_order_view.xml',
+        'views/account_move_view.xml',
         'reports/delivery_order_inherit_report.xml',
         'reports/custom_invoice_report.xml',
 
