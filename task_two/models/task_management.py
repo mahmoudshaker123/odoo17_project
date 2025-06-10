@@ -1,4 +1,4 @@
-from odoo import models , fields
+from odoo import models , fields , api
 
 class TaskManagement(models.Model):
     _name = 'task.management'
@@ -32,3 +32,10 @@ class TaskManagement(models.Model):
     def action_done(self):
         for rec in self:
             rec.state= 'done'
+
+    @api.model
+    def create(self, vals):
+        res = super(TaskManagement ,self).create(vals)
+        if res.seq_number =='New':
+            res.seq_number = self.env['ir.sequence'].next_by_code('task_management_seq')
+        return res

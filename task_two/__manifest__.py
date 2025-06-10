@@ -6,6 +6,7 @@
     'depends': ['base','hr',
                 ],
     'data': [
+        'data/sequence.xml',
         'security/ir.model.access.csv',
         'views/employee_number_view.xml',
         'views/task_management_view.xml',
