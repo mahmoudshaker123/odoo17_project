@@ -74,6 +74,24 @@
         </field>
         </record>
 
+        <record id="task_management_view_search" model="ir.ui.view">
+        <field name="name">task management search</field>
+        <field name="model">task.management</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="state"/>
+
+                <filter name="draft" string="New" domain="[('state','=','draft')]" />
+                <filter name="in_progress" string="In Progress" domain="[('state','=','in_progress')]" />
+                <filter name="done" string="Done" domain="[('state','=','done')]" />
+
+
+                <filter name="employee" string="Employee" context="{'group_by':'employee'}" />
+            </search>
+        </field>
+    </record>
+
 
 
         <record id="task_management_action" model="ir.actions.act_window">
@@ -82,12 +100,35 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <record id="task_set_in_progress_server_action" model="ir.actions.server">
+            <field name="name">Confirm</field>
+            <field name="model_id" ref="model_task_management"/>
+            <field name="binding_model_id" ref="model_task_management"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = records.action_change_in_progress()
+            </field>
+
+        </record>
+
+        <record id="task_set_done_server_action" model="ir.actions.server">
+            <field name="name">Done</field>
+            <field name="model_id" ref="model_task_management"/>
+            <field name="binding_model_id" ref="model_task_management"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = records.action_change_done()
+            </field>
+
+        </record>
+
         <menuitem
             id="menu_task_management_view"
             name="Task Management"
             action="task_management_action"
             parent="hr.menu_config_employee"
             sequence="100"/>
+
 
 
     </data>
