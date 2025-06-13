@@ -90,6 +90,8 @@ class Property(models.Model):
 
 
 
+
+
     def action_draft(self):
         for rec in self:
             rec.create_history_record(rec.state , 'draft')
@@ -152,6 +154,13 @@ class Property(models.Model):
         action['res_id']=self.owner_id.id
         action['views']=[[view_id , 'form']]
         return  action
+
+    def property_xlsx_report(self):
+        return {
+            'type':'ir.actions.act_url',
+            'url':f'/property/excel/report/{self.env.context.get("active_ids")}',
+            'target':'new'
+        }
 
 
 

@@ -22,48 +22,61 @@
                 <sheet>
                     <header>
                         <button name="action_draft" type="object" class="btn-primary" string="Draft"
-                                invisible="state in ('draft','done')"/>
-                        <button name="action_in_progress" type="object" class="btn-secondary" string="In Progress"
-                                invisible="state !='draft'"/>
+                                invisible="state in ('draft','done')"
+                                groups="task_two.group_task_manager"
+                                invisible_domain="[('assignees', 'not in', uid)]"/>
+
+                        <button name="action_in_progress" type="object" class="btn-secondary" string="Confirm"
+                                invisible="state !='draft'"
+                                groups="task_two.group_task_manager"
+                                invisible_domain="[('assignees', 'not in', uid)]"/>
+
                         <button name="action_done" type="object" class="btn-success" string="Done"
-                                invisible="state!='in_progress'"/>
+                                invisible="state!='in_progress'"
+                                groups="task_two.group_task_manager"
+                                invisible_domain="[('assignees', 'not in', uid)]"/>
+
                         <field name="state" widget="statusbar"/>
-
-
                     </header>
 
+
                     <div class="oe_title">
-                        <label for="seq_number"/>
-                        <h1>
-                            <field name="seq_number"/>
-                        </h1>
+    <label for="seq_number"/>
+    <h1>
+        <field name="seq_number" readonly="state != 'draft'"/>
+    </h1>
 
-                        <label for="name"/>
-                        <h3>
-                            <field name="name" readonly="state == 'done'"/>
-                        </h3>
+    <label for="name"/>
+    <h3>
+        <field name="name" readonly="state != 'draft'"/>
+    </h3>
+</div>
 
-                    </div>
+<group>
+    <group>
+        <field name="employee" groups="task_two.group_task_manager"
+               readonly="state != 'draft'"/>
+        <field name="assignees" widget="many2many_tags"
+               groups="task_two.group_task_manager"
+               readonly="state != 'draft'"/>
+    </group>
+    <group>
+        <field name="date" groups="task_two.group_task_manager"
+              readonly="state != 'draft'"/>
+        <field name="deadline" groups="task_two.group_task_manager"
+               readonly="state != 'draft'"/>
+    </group>
+</group>
 
-                    <group>
-                        <group>
-                             <field name="employee"/>
-                             <field name="assignees" widget="many2many_tags"/>
-                        </group>
-                        <group>
-                            <field name="date"/>
-                            <field name="deadline"/>
+                <notebook>
+                    <page string="Description">
+                        <field name="description" groups="task_two.group_task_manager"/>
+                    </page>
+                    <page string="Extra Info">
+                        <field name="extra_info" groups="base.group_user"/>
+                    </page>
+                </notebook>
 
-                        </group>
-                    </group>
-                    <notebook>
-                            <page string="Description">
-                                <field name="description"/>
-                            </page>
-                            <page string="Extra Info">
-                                <field name="extra_info"/>
-                            </page>
-                        </notebook>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids"/>
@@ -127,7 +140,9 @@
             name="Task Management"
             action="task_management_action"
             parent="hr.menu_config_employee"
-            sequence="100"/>
+            sequence="100"
+            groups="task_two.group_task_manager"
+        />
 
 
 

@@ -10,7 +10,7 @@ class TaskManagement(models.Model):
     seq_number = fields.Char(default='New', readonly=True ,string='Number')
     employee = fields.Many2one('hr.employee')
     assignees = fields.Many2many('res.users' , default=lambda self: [self.env.uid])
-    date = fields.Datetime()
+    date = fields.Datetime(default=fields.Datetime.now)
     deadline = fields.Datetime()
     state = fields.Selection([
         ('draft','Draft'),
@@ -64,5 +64,6 @@ class TaskManagement(models.Model):
                 ])
                 if count >= 5:
                     raise ValidationError("No more than 5 tasks .")
+
 
 
