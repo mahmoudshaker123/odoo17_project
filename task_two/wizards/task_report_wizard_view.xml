@@ -1,0 +1,33 @@
+<odoo>
+   <record id="view_task_report_wizard" model="ir.ui.view">
+    <field name="name">task.report.wizard.form</field>
+    <field name="model">task.report.wizard</field>
+    <field name="arch" type="xml">
+        <form string="Task Excel Report Wizard">
+            <group>
+                <field name="date_from"/>
+                <field name="date_to"/>
+            </group>
+            <group>
+                <field name="state"/>
+                <field name="employee_id"/>
+            </group>
+            <footer>
+                <button name="generate_excel_report" type="object" string="Generate Report" class="btn-primary"/>
+                <button string="Cancel" class="btn-secondary" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+
+
+    <!-- Wizard Action -->
+    <record id="action_task_report_wizard" model="ir.actions.act_window">
+        <field name="name">Generate Task Report</field>
+        <field name="res_model">task.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+</odoo>

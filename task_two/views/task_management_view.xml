@@ -5,6 +5,10 @@
             <field name="model">task.management</field>
             <field name="arch" type="xml">
                 <tree>
+                    <header>
+                        <button name="%(action_task_report_wizard)d" string="Generate Excel Report" type="action" class="btn-primary"/>
+                    </header>
+
                     <field name="seq_number"/>
                     <field name="date"/>
                     <field name="employee"/>
