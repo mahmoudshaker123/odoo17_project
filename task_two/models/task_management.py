@@ -6,12 +6,12 @@ class TaskManagement(models.Model):
     _name = 'task.management'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name=fields.Char()
-    seq_number = fields.Char(default='New', readonly=True ,string='Number')
+    name=fields.Char(required=1, copy=False)
+    seq_number = fields.Char(default='New', readonly=True ,string='Number' , copy=False)
     employee = fields.Many2one('hr.employee')
     assignees = fields.Many2many('res.users' , default=lambda self: [self.env.uid])
-    date = fields.Datetime(default=fields.Datetime.now)
-    deadline = fields.Datetime()
+    date = fields.Datetime(default=fields.Datetime.now , required=1)
+    deadline = fields.Datetime(required=1)
     state = fields.Selection([
         ('draft','Draft'),
         ('in_progress','In Progress'),
@@ -21,6 +21,10 @@ class TaskManagement(models.Model):
     )
     description = fields.Text()
     extra_info = fields.Text(string='Extra Info')
+
+    _sql_constraints = [
+        ('unique_name', 'UNIQUE(name)', 'This name already exists.')
+    ]
 
 
     def action_draft(self):
@@ -64,6 +68,17 @@ class TaskManagement(models.Model):
                 ])
                 if count >= 5:
                     raise ValidationError("No more than 5 tasks .")
+
+    def unlink(self):
+        for rec in self:
+            if rec.state != 'draft':
+                raise ValidationError("You can only delete tasks in Draft state.")
+            if self.env.user not in rec.assignees:
+                raise ValidationError("Only assignees can delete this task.")
+        return super().unlink()
+
+
+
 
 
 

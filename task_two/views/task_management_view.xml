@@ -5,11 +5,12 @@
             <field name="model">task.management</field>
             <field name="arch" type="xml">
                 <tree>
-                    <header>
-                        <button name="%(action_task_report_wizard)d" string="Generate Excel Report" type="action" class="btn-primary"/>
-                    </header>
+<!--                    <header>-->
+<!--                        <button name="%(action_task_report_wizard)d" string="Generate Excel Report" type="action" class="btn-primary"/>-->
+<!--                    </header>-->
 
                     <field name="seq_number"/>
+                    <field name="name"/>
                     <field name="date"/>
                     <field name="employee"/>
                     <field name="state" widget="badge" decoration-success="state == 'done'" decoration-warning="state == 'in_progress'" decoration-info="state == 'draft'"/>
@@ -23,54 +24,53 @@
         <field name="model">task.management</field>
         <field name="arch" type="xml">
             <form>
-                <sheet>
-                    <header>
-                        <button name="action_draft" type="object" class="btn-primary" string="Draft"
-                                invisible="state in ('draft','done')"
-                                groups="task_two.group_task_manager"
-                                invisible_domain="[('assignees', 'not in', uid)]"/>
+                <header>
+                        <button name="action_draft" type="object" class="btn-primary" string="Set To Draft"
+                                invisible="state in ('draft')"
+                                groups="task_two.group_task_manager" />
 
                         <button name="action_in_progress" type="object" class="btn-secondary" string="Confirm"
                                 invisible="state !='draft'"
-                                groups="task_two.group_task_manager"
-                                invisible_domain="[('assignees', 'not in', uid)]"/>
+                                groups="task_two.group_task_manager"/>
 
-                        <button name="action_done" type="object" class="btn-success" string="Done"
+                        <button name="action_done" type="object" class="btn-success" string="Mark As Done"
                                 invisible="state!='in_progress'"
-                                groups="task_two.group_task_manager"
-                                invisible_domain="[('assignees', 'not in', uid)]"/>
+                                groups="task_two.group_task_manager"/>
 
                         <field name="state" widget="statusbar"/>
-                    </header>
+                </header>
 
+                <sheet>
 
                     <div class="oe_title">
-    <label for="seq_number"/>
-    <h1>
-        <field name="seq_number" readonly="state != 'draft'"/>
-    </h1>
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" readonly="state != 'draft'"/>
+                        </h1>
 
-    <label for="name"/>
-    <h3>
-        <field name="name" readonly="state != 'draft'"/>
-    </h3>
-</div>
+                        <label for="seq_number"/>
+                        <h3>
+                            <field name="seq_number"/>
+                        </h3>
+                    </div>
 
-<group>
-    <group>
-        <field name="employee" groups="task_two.group_task_manager"
-               readonly="state != 'draft'"/>
-        <field name="assignees" widget="many2many_tags"
-               groups="task_two.group_task_manager"
-               readonly="state != 'draft'"/>
-    </group>
-    <group>
-        <field name="date" groups="task_two.group_task_manager"
-              readonly="state != 'draft'"/>
-        <field name="deadline" groups="task_two.group_task_manager"
-               readonly="state != 'draft'"/>
-    </group>
-</group>
+                    <group>
+                        <group>
+                            <field name="employee"
+                                   readonly="state != 'draft'"
+                                   domain="[('user_id', '!=', False)]"
+                            />
+                            <field name="assignees" widget="many2many_tags"
+                                   groups="task_two.group_task_manager"
+                                   readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="date" groups="task_two.group_task_manager"
+                                  readonly="state != 'draft'"/>
+                            <field name="deadline" groups="task_two.group_task_manager"
+                                   readonly="state != 'draft'"/>
+                        </group>
+                    </group>
 
                 <notebook>
                     <page string="Description">

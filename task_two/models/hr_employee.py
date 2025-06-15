@@ -5,6 +5,24 @@ class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
     employee_number=fields.Integer(string='Employee Number')
+    has_related_tasks = fields.Boolean(string="Has Related Tasks", compute="_compute_has_related_tasks" ,store=True)
+    task_count = fields.Integer(string="Tasks Count", compute="_compute_task_count", store=False)
+
+    def _compute_has_related_tasks(self):
+        for rec in self:
+            count = self.env['task.management'].search_count([
+                ('employee', '=', rec.id),
+                ('state', '=', 'in_progress')
+            ])
+            rec.has_related_tasks = count > 0
+
+    def _compute_task_count(self):
+        for rec in self:
+            rec.task_count = self.env['task.management'].search_count([
+                ('employee', '=', rec.id),
+                ('state', '=', 'in_progress')
+            ])
+
 
     _sql_constraints = [
         ('unique_employee_number', 'unique("employee_number")', 'This employee number is exist')

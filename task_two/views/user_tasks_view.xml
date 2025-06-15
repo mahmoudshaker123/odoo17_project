@@ -1,0 +1,22 @@
+<odoo>
+<data>
+    <record id="user_task_management_action" model="ir.actions.act_window">
+        <field name="name">Task Management</field>
+        <field name="res_model">task.management</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('assignees', 'in', [uid]), ('state', '=', 'in_progress')]</field>
+    </record>
+
+    <menuitem
+    id="menu_user_related_tasks"
+    name="User Related Tasks"
+    parent="hr.menu_config_employee"
+    action="user_task_management_action"
+    sequence="120"
+    groups="task_two.group_task_manager"
+
+/>
+
+
+     </data>
+</odoo>

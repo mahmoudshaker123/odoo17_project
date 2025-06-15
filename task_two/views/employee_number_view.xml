@@ -4,10 +4,15 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//form/header" position="inside">
+            <xpath expr="//form/header" position="inside" >
                 <div name="button_box" class="oe_button_box">
+                    <field name="has_related_tasks" invisible="1"/>
                     <button name="action_open_related_task" type="object"
-                            string="Related Tasks" icon="fa-tasks"/>
+                            string="Related Tasks" icon="fa-tasks"
+                            invisible="has_related_tasks == False"
+                    >
+                        <field name="task_count" widget="statinfo"/>
+                    </button>
                 </div>
             </xpath>
             <xpath expr="//field[@name='mobile_phone']" position="before">
