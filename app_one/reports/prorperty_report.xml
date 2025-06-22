@@ -39,7 +39,7 @@
                 }
             </style>
             <t t-foreach="docs" t-as="o">
-                <h1>Property Report</h1>
+                <h1 style="font-family:'Cairo-Black';">Property Report</h1>
                  <table>
                      <thead>
                          <th colspan="4">General Information</th>

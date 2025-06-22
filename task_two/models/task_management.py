@@ -6,7 +6,7 @@ class TaskManagement(models.Model):
     _name = 'task.management'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    name=fields.Char(required=1, copy=False)
+    name=fields.Char(copy=False)
     seq_number = fields.Char(default='New', readonly=True ,string='Number' , copy=False)
     employee = fields.Many2one('hr.employee')
     assignees = fields.Many2many('res.users' , default=lambda self: [self.env.uid])
