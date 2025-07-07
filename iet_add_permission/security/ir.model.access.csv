@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_template,product.template.creation,product.model_product_template,iet_add_permission.group_product_creation,1,1,1,0
+access_res_partner_customer_creation,res.partner.customer.creation,base.model_res_partner,iet_add_permission.group_customer_creation,1,1,1,1

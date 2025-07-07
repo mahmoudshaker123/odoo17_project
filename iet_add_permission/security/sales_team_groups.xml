@@ -1,0 +1,8 @@
+<odoo>
+    <data noupdate="0">
+        <record id="group_see_own_team" model="res.groups">
+            <field name="name">See Own Team</field>
+            <field name="category_id" ref="base.module_category_inventory"/>
+        </record>
+    </data>
+</odoo>

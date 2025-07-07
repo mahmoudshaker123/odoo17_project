@@ -1,6 +1,5 @@
 from odoo import  fields , models
 
-
 class ChangeState(models.TransientModel):
     _name = 'change.state'
 

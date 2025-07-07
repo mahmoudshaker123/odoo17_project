@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id="job_order_sequence" model="ir.sequence">
+            <field name="name">Job Order Seq.</field>
+            <field name="code">job_order_seq</field>
+            <field name="prefix">JO-</field>
+            <field name="padding">4</field>
+        </record>
+
+    </data>
+</odoo>

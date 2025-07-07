@@ -1,0 +1,46 @@
+<odoo>
+    <record id="view_partner_form_arabic_inherit" model="ir.ui.view">
+        <field name="name">res.partner.form.arabic.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="after">
+                <group>
+                    <field name="name_ar"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='street']" position="after">
+                <group>
+                    <field name="street1_ar"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='street2']" position="after">
+                <group>
+                    <field name="street2_ar"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='city']" position="after">
+                <group>
+                    <field name="city_ar"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='state_id']" position="after">
+                <group>
+                    <field name="state_ar"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='country_id']" position="after">
+                <group>
+                    <field name="country_ar"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

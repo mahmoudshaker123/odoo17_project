@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="custom_invoice_report_action" model="ir.actions.report">
+            <field name="name">Tax Invoice KSA</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+            <field name="report_name">iet_add_translation.ksa_tax_invoice_report_template</field>
+        </record>
+    </data>
+<template id="ksa_tax_invoice_report_template">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="web.external_layout">
+
+                <!-- ✅ عنوان التقرير -->
+                <div style="background-color: #f0f0f0; padding: 12px 0; width: 100%;">
+                  <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+                    <div style="display: flex; gap: 20px; text-align: center;">
+                      <span style="font-size: 18px; font-weight: bold;">Tax Invoice</span>
+                      <span style="font-size: 18px; font-weight: bold;">فاتورة ضريبية</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="padding: 10px; position: relative; margin-bottom: 30px;">
+                  <div style="display: flex; flex-direction: row; align-items: flex-start;">
+
+                    <div style="flex: 1; display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+
+                      <div style="display: flex;">
+                        <span style="font-weight: bold; display: inline-block; width: 160px;">Invoice Number</span>
+                        <span style="display: inline-block; width: 180px; text-align: center;">
+                          <t t-esc="doc.name"/>
+                        </span>
+                        <span style="font-weight: bold; display: inline-block; width: 160px; text-align: right;">رقم الفاتورة</span>
+                      </div>
+
+                      <div style="display: flex;">
+                        <span style="font-weight: bold; display: inline-block; width: 160px;">Invoice Date</span>
+                        <span style="display: inline-block; width: 180px; text-align: center;">
+                          <t t-esc="doc.invoice_date"/>
+                        </span>
+                        <span style="font-weight: bold; display: inline-block; width: 160px; text-align: right;">تاريخ الفاتورة</span>
+                      </div>
+
+                    </div>
+
+                    <div style="position: absolute; right: 30px; top: 10px;">
+                      <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/375px-QR_code_for_mobile_English_Wikipedia.svg.png"
+                        alt="QR Code"
+                        style="width: 120px; height: 120px;" />
+                    </div>
+
+                  </div>
+                </div>
+
+            </t>
+        </t>
+    </t>
+</template>
+
+</odoo>
+

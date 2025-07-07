@@ -12,7 +12,6 @@
         'views/hospital_doctor_views.xml',
         'views/hospital_department_views.xml',
         'views/res_partner_view.xml',
-        'security/security.xml',
         'reports/patients_report.xml',
         ],
 
