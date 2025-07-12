@@ -12,56 +12,320 @@
     </data>
 <template id="ksa_tax_invoice_report_template">
     <t t-call="web.html_container">
-        <t t-foreach="docs" t-as="doc">
-            <t t-call="web.external_layout">
+        <t t-call="web.external_layout">
+            <style>
+                .report-header {
+                    background-color: #fcfcfc;
+                    padding: 2px;
+                    width: 100%;
+                }
 
-                <!-- ✅ عنوان التقرير -->
-                <div style="background-color: #f0f0f0; padding: 12px 0; width: 100%;">
-                  <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-                    <div style="display: flex; gap: 20px; text-align: center;">
-                      <span style="font-size: 18px; font-weight: bold;">Tax Invoice</span>
-                      <span style="font-size: 18px; font-weight: bold;">فاتورة ضريبية</span>
+                .report-title-wrapper {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                }
+
+                .report-title {
+                    display: flex;
+                    gap: 20px;
+                    text-align: center;
+                }
+
+                .report-title span {
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+
+                .invoice-info {
+                    padding: 10px;
+                    position: relative;
+                    margin-bottom: 30px;
+                }
+
+                .invoice-rows {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-start;
+                }
+
+                .invoice-details {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    margin-top: 10px;
+                }
+
+                .invoice-line {
+                    display: flex;
+                }
+
+                .invoice-line span {
+                    display: inline-block;
+                }
+
+                .label-en {
+                    font-weight: bold;
+                    width: 160px;
+                }
+
+                .value {
+                    width: 180px;
+                    text-align: center;
+                }
+
+                .label-ar {
+                    font-weight: bold;
+                    width: 160px;
+                    text-align: right;
+                }
+
+                .qr-code {
+                    position: absolute;
+                    right: 30px;
+                    top: 10px;
+                }
+
+                .qr-code img {
+                    width: 120px;
+                    height: 120px;
+                }
+
+                .tables-wrapper {
+                    width: 100%;
+                    margin-top: 60px;
+                    padding: 0 30px;
+                    box-sizing: border-box;
+                }
+
+                .table-one {
+                    float: left;
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                    margin: 0;
+                    width: 50%;
+                    border-right: none;
+                    height: auto;
+                }
+
+                .table-two {
+                    float: left;
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                    margin: 0;
+                    width: 50%;
+                    border-left: none;
+                    height: auto;
+                }
+
+                .tables-wrapper::after {
+                    content: "";
+                    display: table;
+                    clear: both;
+                }
+
+                .table-one td, .table-two td {
+                    vertical-align: middle;
+                    padding: 5px;
+
+                }
+
+                .table-header {
+                    background-color: #fcfcfc;
+                    font-weight: bold;
+                    text-align: left;
+                }
+
+                .invoice-table {
+                    padding: 0 10px;
+                    margin-top: 20px;
+                    font-family: 'Cairo', sans-serif;
+                    text-align: right;
+                }
+
+                .invoice-table-header {
+                    background-color: #fcfcfc;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 10px;
+                }
+
+                .invoice-title-en {
+                    font-weight: bold;
+                }
+
+                .invoice-title-ar {
+                    margin: 0;
+                    text-align: center;
+                    flex-grow: 1;
+                }
+
+                .invoice-items-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    text-align: center;
+                }
+
+                .invoice-items-table th,
+                .invoice-items-table td {
+                    font-size: 13px;
+                    padding: 2px;
+                }
+
+                .invoice-items-table thead {
+                    font-size: 14px;
+                    background-color: #fcfcfc;
+                }
+            </style>
+            
+            <t t-foreach="docs" t-as="o">
+                <!-- عنوان التقرير -->
+                <div class="report-header">
+                    <div class="report-title-wrapper">
+                        <div class="report-title">
+                            <span>Tax Invoice</span>
+                            <span>فاتورة ضريبية</span>
+                        </div>
                     </div>
-                  </div>
                 </div>
 
-                <div style="padding: 10px; position: relative; margin-bottom: 30px;">
-                  <div style="display: flex; flex-direction: row; align-items: flex-start;">
+                <div class="invoice-info">
+                    <div class="invoice-rows">
+                        <div class="invoice-details">
+                            <div class="invoice-line">
+                                <span class="label-en">Invoice Number</span>
+                                <span class="value">
+                                    13422\5435\634
+                                </span>
+                                <span class="label-ar">رقم الفاتورة</span>
+                            </div>
 
-                    <div style="flex: 1; display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                            <div class="invoice-line">
+                                <span class="label-en">Invoice Date</span>
+                                <span class="value">
+                                    12/10/2023
+                                </span>
+                                <span class="label-ar">تاريخ الفاتورة</span>
+                            </div>
+                        </div>
 
-                      <div style="display: flex;">
-                        <span style="font-weight: bold; display: inline-block; width: 160px;">Invoice Number</span>
-                        <span style="display: inline-block; width: 180px; text-align: center;">
-                          <t t-esc="doc.name"/>
-                        </span>
-                        <span style="font-weight: bold; display: inline-block; width: 160px; text-align: right;">رقم الفاتورة</span>
-                      </div>
-
-                      <div style="display: flex;">
-                        <span style="font-weight: bold; display: inline-block; width: 160px;">Invoice Date</span>
-                        <span style="display: inline-block; width: 180px; text-align: center;">
-                          <t t-esc="doc.invoice_date"/>
-                        </span>
-                        <span style="font-weight: bold; display: inline-block; width: 160px; text-align: right;">تاريخ الفاتورة</span>
-                      </div>
-
+                        <div class="qr-code">
+                            <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/375px-QR_code_for_mobile_English_Wikipedia.svg.png"
+                                alt="QR Code" />
+                        </div>
                     </div>
-
-                    <div style="position: absolute; right: 30px; top: 10px;">
-                      <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/375px-QR_code_for_mobile_English_Wikipedia.svg.png"
-                        alt="QR Code"
-                        style="width: 120px; height: 120px;" />
-                    </div>
-
-                  </div>
                 </div>
 
+                <div class="tables-wrapper">
+                    <table class="table-one">
+                        <tr>
+                            <td class="table-header">Buyer</td>
+                            <td class="table-header"></td>
+                            <td class="table-header">العميل</td>
+                            <td class="table-header"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Name:</strong></td>
+                            <td>Mahmoud shaker</td>
+                            <td><strong>الاسم:</strong></td>
+                            <td>محمود شاكر</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Zip Code:</strong></td>
+                            <td>123456789</td>
+                            <td><strong>الرمز البريدي:</strong></td>
+                            <td>123456789</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Street:</strong></td>
+                            <td>123 Main St, City, Country</td>
+                            <td><strong>اسم الشارع:</strong></td>
+                            <td>123 الشارع الرئيسي، المدينة، البلد</td>
+                        </tr>
+                        <tr>
+                            <td><strong>City:</strong></td>
+                            <td>+1234567890</td>
+                            <td><strong>المدينة:</strong></td>
+                            <td>+1234567890</td>
+                        </tr>
+                    </table>
+
+                    <table class="table-two">
+                        <tr>
+                            <td class="table-header">Supplier</td>
+                            <td class="table-header"></td>
+                            <td class="table-header">المورد</td>
+                            <td class="table-header"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Name:</strong></td>
+                            <td>Mahmoud shaker</td>
+                            <td><strong>الاسم:</strong></td>
+                            <td>محمود شاكر</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Zip Code:</strong></td>
+                            <td>123456789</td>
+                            <td><strong>الرمز البريدي:</strong></td>
+                            <td>123456789</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Street:</strong></td>
+                            <td>123 Main St, City, Country</td>
+                            <td><strong>اسم الشارع:</strong></td>
+                            <td>123 الشارع الرئيسي، المدينة، البلد</td>
+                        </tr>
+                        <tr>
+                            <td><strong>City:</strong></td>
+                            <td>+1234567890</td>
+                            <td><strong>المدينة:</strong></td>
+                            <td>+1234567890</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="invoice-table">
+                    <div class="invoice-table-header">
+                        <span class="invoice-title-en">Invoice Line</span>
+                        <h3 class="invoice-title-ar">الأصناف</h3>
+                    </div>
+
+                    <table class="invoice-items-table">
+                        <thead>
+                            <tr>
+                                <th>Name<br/>الصنف</th>
+                                <th>UOM<br/>وحدات القياس</th>
+                                <th>Quantity<br/>الكمية</th>
+                                <th>Unit Price<br/>سعر الوحدة</th>
+                                <th>Discount<br/>الخصم</th>
+                                <th>Taxes<br/>نسبة الضريبة</th>
+                                <th>Amount Tax<br/>مبلغ الضريبة</th>
+                                <th>Taxable Amount<br/>المبلغ الخاضع للضريبة</th>
+                                <th>Price Total (with VAT)<br/>الإجمالي شامل الضريبة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>تقارير إعداد مستندات التحول الرقمي شهرياً لمدة 3 أشهر الربع الثالث</td>
+                                <td>تقرير</td>
+                                <td>173,184.00</td>
+                                <td>SR 0.00</td>
+                                <td>-</td>
+                                <td>Sales 15%</td>
+                                <td>SR 77,932.80</td>
+                                <td>SR 519,552.00</td>
+                                <td>SR 597,484.80</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </t>
         </t>
     </t>
 </template>
-
 </odoo>
 
