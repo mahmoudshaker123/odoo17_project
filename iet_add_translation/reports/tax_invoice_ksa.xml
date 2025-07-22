@@ -13,6 +13,8 @@
 <template id="ksa_tax_invoice_report_template">
     <t t-call="web.html_container">
         <t t-call="web.external_layout">
+            <t t-set="css_files" t-value="['/iet_add_translation/static/src/css/font.css']"/>
+
             <style>
                 .report-header {
                     background-color: #fcfcfc;
@@ -94,91 +96,120 @@
                 }
 
                 .tables-wrapper {
+                    display: flex;
                     width: 100%;
                     margin-top: 60px;
-                    padding: 0 30px;
                     box-sizing: border-box;
                 }
-
-                .table-one {
+                .table-one, .table-two {
                     float: left;
                     border: 1px solid black;
                     border-collapse: collapse;
-                    margin: 0;
                     width: 50%;
-                    border-right: none;
-                    height: auto;
+                    min-height: 180px; /* ثابت للجدول */
+                    table-layout: fixed;
                 }
-
-                .table-two {
-                    float: left;
-                    border: 1px solid black;
-                    border-collapse: collapse;
-                    margin: 0;
-                    width: 50%;
-                    border-left: none;
-                    height: auto;
-                }
-
                 .tables-wrapper::after {
                     content: "";
                     display: table;
                     clear: both;
                 }
-
                 .table-one td, .table-two td {
                     vertical-align: middle;
-                    padding: 5px;
-
+                    padding: 4px 5px;
+                    font-size: 12px; /* حجم الخط أصغر */
                 }
-
                 .table-header {
                     background-color: #fcfcfc;
                     font-weight: bold;
                     text-align: left;
+                    font-size: 13px;
                 }
 
                 .invoice-table {
                     padding: 0 10px;
                     margin-top: 20px;
-                    font-family: 'Cairo', sans-serif;
-                    text-align: right;
                 }
 
-                .invoice-table-header {
-                    background-color: #fcfcfc;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 10px;
+
+              .invoice-line-wrapper {
+                  background-color: #fcfcfc;
+                  padding: 5px;
+                  margin-bottom: 10px;
+                  position: relative;
+                  font-weight: bold;
                 }
 
-                .invoice-title-en {
-                    font-weight: bold;
+                .invoice-line {
+                  display: flex;
+                  justify-content: flex-start;
+                  align-items: center;
+                  margin: 0;
+                  position: relative;
                 }
 
-                .invoice-title-ar {
-                    margin: 0;
-                    text-align: center;
-                    flex-grow: 1;
+                .invoice-line .left {
                 }
+
+                .invoice-line .center {
+                  position: absolute;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  text-align: center;
+                }
+
+
 
                 .invoice-items-table {
                     width: 100%;
                     border-collapse: collapse;
                     text-align: center;
+                    border: 1px solid black;
+
+
                 }
 
                 .invoice-items-table th,
                 .invoice-items-table td {
                     font-size: 13px;
                     padding: 2px;
+                    border: 1px solid black;
+
                 }
 
                 .invoice-items-table thead {
                     font-size: 14px;
                     background-color: #fcfcfc;
                 }
+
+                .amount-table {
+                    padding: 0 10px;
+                    margin-top: 20px;
+                }
+
+                .total-amount-table {
+                      width: 75%;
+                      margin-left: auto; /* يحرك الجدول لليمين */
+                      border: 1px solid rgba(0, 0, 0, 0.2); /* حد خفيف */
+                      border-collapse: collapse;
+                    }
+
+
+                    .total-amount-table.bordered {
+                      border: 1px solid rgba(0, 0, 0, 0.2); /* أسود شفاف */
+                      border-radius: 4px; /* اختياري: حواف ناعمة */
+                    }
+
+
+                    .total-amount-table td {
+                      border: none; /* ← لا حدود بين الخلايا */
+                      padding: 10px;
+                      text-align: center;
+                    }
+                   .total-amount-table tr {
+                      border-bottom: 1px solid rgba(0, 0, 0, 0.2); /* حد خفيف بين الصفوف */
+                    }
+
             </style>
             
             <t t-foreach="docs" t-as="o">
@@ -198,7 +229,7 @@
                             <div class="invoice-line">
                                 <span class="label-en">Invoice Number</span>
                                 <span class="value">
-                                    13422\5435\634
+                                    <t t-esc="o.name"/>
                                 </span>
                                 <span class="label-ar">رقم الفاتورة</span>
                             </div>
@@ -206,7 +237,7 @@
                             <div class="invoice-line">
                                 <span class="label-en">Invoice Date</span>
                                 <span class="value">
-                                    12/10/2023
+                                    <t t-esc="o.invoice_date"/>
                                 </span>
                                 <span class="label-ar">تاريخ الفاتورة</span>
                             </div>
@@ -230,28 +261,31 @@
                         </tr>
                         <tr>
                             <td><strong>Name:</strong></td>
-                            <td>Mahmoud shaker</td>
-                            <td><strong>الاسم:</strong></td>
-                            <td>محمود شاكر</td>
+                            <td><t t-esc="o.partner_id.name or '&#160;'"/></td>
+                            <td ><strong>الاسم:</strong></td>
+                            <td ><t t-esc="o.partner_id.name or '&#160;'"/></td>
                         </tr>
                         <tr>
-                            <td><strong>Zip Code:</strong></td>
-                            <td>123456789</td>
-                            <td><strong>الرمز البريدي:</strong></td>
-                            <td>123456789</td>
+                            <td><strong>Street 1:</strong></td>
+                            <td><t t-esc="o.partner_id.street or '&#160;'"/></td>
+                            <td><strong>اسم الشارع 1:</strong></td>
+                            <td ><t t-esc="o.partner_id.street1_ar or '&#160;'"/></td>
                         </tr>
                         <tr>
-                            <td><strong>Street:</strong></td>
-                            <td>123 Main St, City, Country</td>
-                            <td><strong>اسم الشارع:</strong></td>
-                            <td>123 الشارع الرئيسي، المدينة، البلد</td>
+                            <td><strong>Street 2:</strong></td>
+                            <td><t t-esc="o.partner_id.street2 or '&#160;'"/></td>
+                            <td ><strong>اسم الشارع 2:</strong></td>
+                            <td><t t-esc="o.partner_id.street2_ar or '&#160;'"/></td>
                         </tr>
                         <tr>
                             <td><strong>City:</strong></td>
-                            <td>+1234567890</td>
+                            <td><t t-esc="o.partner_id.city or '&#160;'"/></td>
                             <td><strong>المدينة:</strong></td>
-                            <td>+1234567890</td>
+                            <td><t t-esc="o.partner_id.city_ar or '&#160;'"/></td>
                         </tr>
+
+
+
                     </table>
 
                     <table class="table-two">
@@ -263,36 +297,42 @@
                         </tr>
                         <tr>
                             <td><strong>Name:</strong></td>
-                            <td>Mahmoud shaker</td>
+                            <td><t t-esc="o.company_id.name or '&#160;'"/></td>
                             <td><strong>الاسم:</strong></td>
-                            <td>محمود شاكر</td>
+                            <td><t t-esc="o.company_id.name or '&#160;'"/></td>
                         </tr>
                         <tr>
-                            <td><strong>Zip Code:</strong></td>
-                            <td>123456789</td>
-                            <td><strong>الرمز البريدي:</strong></td>
-                            <td>123456789</td>
+                            <td><strong>Street 1:</strong></td>
+                            <td><t t-esc="o.company_id.street or '&#160;'"/></td>
+                            <td ><strong>اسم الشارع 1:</strong></td>
+                            <td><t t-esc="o.company_id.street or '&#160;'"/></td>
                         </tr>
                         <tr>
-                            <td><strong>Street:</strong></td>
-                            <td>123 Main St, City, Country</td>
-                            <td><strong>اسم الشارع:</strong></td>
-                            <td>123 الشارع الرئيسي، المدينة، البلد</td>
+                            <td><strong>Street 2:</strong></td>
+                            <td><t t-esc="o.company_id.street2 or '&#160;'"/></td>
+                            <td><strong>اسم الشارع 2:</strong></td>
+                            <td ><t t-esc="o.company_id.street2 or '&#160;'"/></td>
                         </tr>
                         <tr>
                             <td><strong>City:</strong></td>
-                            <td>+1234567890</td>
+                            <td><t t-esc="o.company_id.city or '&#160;'"/></td>
                             <td><strong>المدينة:</strong></td>
-                            <td>+1234567890</td>
+                            <td><t t-esc="o.company_id.city or '&#160;'"/></td>
                         </tr>
+
+
+
                     </table>
                 </div>
 
                 <div class="invoice-table">
-                    <div class="invoice-table-header">
-                        <span class="invoice-title-en">Invoice Line</span>
-                        <h3 class="invoice-title-ar">الأصناف</h3>
-                    </div>
+
+                 <div class="invoice-line-wrapper">
+                  <p class="invoice-line">
+                    <span class="left">Invoice Lines</span>
+                    <span class="center">الأصناف</span>
+                  </p>
+                </div>
 
                     <table class="invoice-items-table">
                         <thead>
@@ -309,20 +349,59 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>تقارير إعداد مستندات التحول الرقمي شهرياً لمدة 3 أشهر الربع الثالث</td>
-                                <td>تقرير</td>
-                                <td>173,184.00</td>
-                                <td>SR 0.00</td>
-                                <td>-</td>
-                                <td>Sales 15%</td>
-                                <td>SR 77,932.80</td>
-                                <td>SR 519,552.00</td>
-                                <td>SR 597,484.80</td>
-                            </tr>
+                            <t t-foreach="o.invoice_line_ids" t-as="line">
+                                <t t-if="line.display_type == 'product'">
+                                    <tr>
+                                        <td><span t-field="line.name"/></td>
+                                        <td><span t-field="line.product_uom_id"/></td>
+                                        <td><span t-field="line.quantity"/></td>
+                                        <td><span t-field="line.price_unit"/></td>
+                                        <td><span t-field="line.discount"/></td>
+                                        <td><span t-esc="', '.join(map(lambda x: (x.name), line.tax_ids))"/></td>
+                                        <td><span t-esc="line.price_total - line.price_subtotal" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                                        <td><span t-field="line.price_subtotal"/></td>
+                                        <td><span t-field="line.price_total"/></td>
+                                    </tr>
+                                </t>
+                            </t>
                         </tbody>
                     </table>
+
                 </div>
+
+                <div class="amount-table">
+
+                 <div class="invoice-line-wrapper">
+                      <p class="invoice-line">
+                        <span class="left">Total Amount :</span>
+                        <span class="center">الأجمالي :</span>
+                      </p>
+                 </div>
+                    <table class="total-amount-table bordered">
+                      <tr>
+                        <td>Untaxed Amount </td>
+                        <td> الاجمالي غير شامل ضريبة القيمة المضافه </td>
+                        <td><span t-field="o.amount_untaxed"/></td>
+                      </tr>
+                        <tr>
+                        <td>Taxes 15%</td>
+                        <td>
+                          <span style="direction: rtl; display: inline-block;">ضريبة القيمة المضافة 15%</span>
+                        </td>
+                        <td><span t-field="o.amount_tax"/></td>
+                      </tr>
+                        <tr>
+                        <td>Total Amount Due</td>
+                        <td>الاجمالي شامل ضريبة القيمة المضافة</td>
+                        <td><span t-field="o.amount_total"/></td>
+                      </tr>
+                    </table>
+
+
+
+                </div>
+
+
             </t>
         </t>
     </t>

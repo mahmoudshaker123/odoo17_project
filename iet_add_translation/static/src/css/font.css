@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'Cairo-Medium';
+  src: url('/iet_add_translation/static/src/fonts/Cairo-Medium.ttf') format('truetype');
+}
+
+body, * {
+  font-family: 'Cairo-Medium', sans-serif;
+}

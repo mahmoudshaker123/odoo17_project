@@ -1,0 +1,48 @@
+
+<odoo>
+    <record id="property_record" model="ir.actions.report">
+        <field name="name">تقرير الحضور </field>
+        <field name="model" >attendance.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="binding_model_id" ref="model_attendance_report_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="report_name">employee_attendance_report.report_attendance_pdf</field>
+    </record>
+
+
+    <template id="report_attendance_pdf">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <style type="text/css">
+            </style>
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+        <h2>تقرير الحضور</h2>
+        <p><strong>الموظف:</strong> <t t-esc="doc.employee_id.name"/></p>
+        <p><strong>الفترة:</strong> <t t-esc="doc.start_date"/> إلى <t t-esc="doc.end_date"/></p>
+
+        <table class="table table-sm mt32">
+          <thead>
+            <tr>
+              <th>التاريخ</th>
+              <th>الوقت</th>
+            </tr>
+          </thead>
+          <tbody>
+            <t t-set="attendances" t-value="doc.employee_id.attendance_ids.filtered(lambda a: doc.start_date &lt;= a.check_in.date() &lt;= doc.end_date)"/>
+            <t t-foreach="attendances" t-as="att">
+              <tr>
+                <td><t t-esc="att.check_in.strftime('%Y-%m-%d')"/></td>
+                <td><t t-esc="att.check_in.strftime('%H:T%M')"/></td>
+              </tr>
+            </t>
+          </tbody>
+        </table>
+      </div>
+
+            </t>
+            </t>
+        </t>
+
+    </template>
+</odoo>

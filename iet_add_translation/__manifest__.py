@@ -12,6 +12,9 @@
         'reports/tax_invoice_ksa.xml',
 
         ],
+'assets': {
+        'web.report_assets_common':['iet_add_translation/static/src/css/font.css']
+    },
 
     'application': True,
 }
