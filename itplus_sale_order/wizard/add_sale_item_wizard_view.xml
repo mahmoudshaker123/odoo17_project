@@ -1,0 +1,36 @@
+<odoo>
+    <record id="view_add_sale_item_wizard_form" model="ir.ui.view">
+        <field name="name">add.sale.item.wizard.form</field>
+        <field name="model">add.sale.item.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add Items">
+                <sheet>
+                    <h2>
+                        Add Items for: <field name="product_id" readonly="1" class="oe_inline"/>
+                    </h2>
+                    <field name="sale_order_line_id" invisible="1"/>
+                    <separator string="Item Details"/>
+                    <field name="item_ids">
+                        <tree editable="bottom">
+                            <field name="length"/>
+                            <field name="quantity"/>
+                            <field name="total" readonly="1"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button name="action_add_items" string="Add Items" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_add_sale_item_wizard" model="ir.actions.act_window">
+        <field name="name">Add Items</field>
+        <field name="res_model">add.sale.item.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_add_sale_item_wizard_form"/>
+    </record>
+</odoo>

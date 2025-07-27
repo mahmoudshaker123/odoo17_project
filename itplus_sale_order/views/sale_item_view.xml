@@ -1,0 +1,20 @@
+<odoo>
+    <record id="view_order_form_inherit_add_button" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.add.items.button</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="after">
+                <button name="action_open_item_wizard"
+                        string="Items"
+                        type="object"
+                        class="btn btn-primary"/>
+            </xpath>
+
+            <xpath expr="//field[@name='product_template_id']" position="after">
+                    <field name="total_items_amount" string="Total Quantity" readonly="1"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
