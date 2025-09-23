@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_quality_test_tree" model="ir.ui.view">
+            <field name="name">quality.test.tree</field>
+            <field name="model">quality.test</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="location_id"/>
+                    <field name="test_type"/>
+                    <field name="test_result" invisible="test_type != 'quantity'"/>
+                    <field name="test_result2" invisible="test_type != 'quality'"/>
+                    <field name="test_status" widget="badge" 
+                           decoration-success="test_status == 'pass'"
+                           decoration-danger="test_status == 'fail'"
+                           decoration-warning="test_status == 'draft'"/>
+                    <field name="test_date"/>
+                    <field name="tested_by"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_quality_test_form" model="ir.ui.view">
+            <field name="name">quality.test.form</field>
+            <field name="model">quality.test</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_pass" string="Pass" type="object" 
+                                class="oe_highlight" 
+                                invisible="test_status == 'pass'"/>
+                        <button name="action_fail" string="Fail" type="object" 
+                                class="btn-danger" 
+                                invisible="test_status == 'fail'"/>
+                        <button name="action_reset" string="Reset" type="object" 
+                                class="btn-secondary" 
+                                invisible="test_status == 'draft'"/>
+                        <field name="test_status" widget="statusbar" 
+                               statusbar_visible="draft,pass,fail"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Test Name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Test Information">
+                                <field name="quality_measure_id" required="1"/>
+                                <field name="description"/>
+                                <field name="test_type"/>
+                                <field name="test_date"/>
+                                <field name="tested_by"/>
+                            </group>
+                            <group string="Product and Location">
+                                <field name="product_id"/>
+                                <field name="location_id"/>
+                            </group>
+                        </group>
+                        <group string="Test Results">
+                            <field name="test_result" invisible="test_type != 'quantity'" 
+                                   placeholder="Enter numeric result"/>
+                            <field name="test_result2" invisible="test_type != 'quality'"/>
+                            <field name="is_passed"/>
+                        </group>
+                        <group string="Notes">
+                            <field name="notes" placeholder="Add any additional notes..."/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_quality_test_search" model="ir.ui.view">
+            <field name="name">quality.test.search</field>
+            <field name="model">quality.test</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="location_id"/>
+                    <field name="tested_by"/>
+                    <filter string="Passed" name="passed" domain="[('test_status', '=', 'pass')]"/>
+                    <filter string="Failed" name="failed" domain="[('test_status', '=', 'fail')]"/>
+                    <filter string="Draft" name="draft" domain="[('test_status', '=', 'draft')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="group_status" context="{'group_by': 'test_status'}"/>
+                        <filter string="Product" name="group_product" context="{'group_by': 'product_id'}"/>
+                        <filter string="Location" name="group_location" context="{'group_by': 'location_id'}"/>
+                        <filter string="Tested By" name="group_tested_by" context="{'group_by': 'tested_by'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_quality_test" model="ir.actions.act_window">
+            <field name="name">Quality Tests</field>
+            <field name="res_model">quality.test</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_quality_test_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first quality test
+                </p>
+                <p>
+                    Quality tests are used to verify that products meet the required standards
+                    before they can be moved in stock operations.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

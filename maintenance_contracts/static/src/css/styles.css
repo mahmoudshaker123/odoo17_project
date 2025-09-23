@@ -1,0 +1,20 @@
+.state-draft {
+    color: gray;
+}
+
+.state-upcoming {
+    color: blue;
+}
+
+.state-active {
+    color: green;
+}
+
+.state-nearly_expired {
+    color: orange;
+}
+
+
+.state-expired {
+    color: red;
+}

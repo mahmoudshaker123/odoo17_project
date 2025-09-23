@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_maintenance_contract,access.maintenance.contract,model_maintenance_contract,,1,1,1,1
+access_maintenance_contract_attachment_user,access.maintenance.contract.attachment.user,model_maintenance_contract_attachment,,1,1,1,1
+access_category,access.category,model_category,,1,1,1,1

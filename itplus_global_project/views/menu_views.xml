@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Root Menu with Icon -->
+       <menuitem id="menu_quality_root"
+          name="Quality Control"
+          web_icon="itplus_global_project,static/description/cp.png"/>
+
+
+        <menuitem id="menu_quality_measure"
+                  name="Quality Measures"
+                  parent="menu_quality_root"
+                  action="action_quality_measure"
+                  sequence="10"/>
+
+        <menuitem id="menu_quality_test"
+                  name="Quality Tests"
+                  parent="menu_quality_root"
+                  action="action_quality_test"
+                  sequence="20"/>
+
+    </data>
+</odoo>

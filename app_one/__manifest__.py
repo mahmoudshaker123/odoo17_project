@@ -1,10 +1,10 @@
 
 {
-    'name': "App One",
+    'name': "Real Estate Management",
     'author': "Mahmoud Shaker",
     'category': '',
     'version': '17.0.0.1.0',
-    'depends': ['base' , 'sale_management' , 'account' ,'sale' , 'mail',
+    'depends': ['base' , 'sale_management' , 'account' ,'sale' , 'mail','website',
                 ],
     'data': [
         'security/security.xml',
@@ -20,6 +20,7 @@
         'views/property_history_view.xml',
         'wizard/change_state_wizard_view.xml',
         'reports/prorperty_report.xml',
+        'views/controller_views.xml',
 
 
 

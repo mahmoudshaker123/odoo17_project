@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- إضافة حقول فحص الجودة على نموذج stock.picking -->
+        <record id="view_picking_form_inherit_quality" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit.quality</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <!-- إضافة معلومات فحص الجودة في header -->
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_quality_tests"
+                            type="object"
+                            icon="fa-check-circle"
+                            string="Quality Tests"
+                            invisible="not has_quality_checks"
+                            class="oe_stat_button"/>
+                    <field name="has_quality_checks" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

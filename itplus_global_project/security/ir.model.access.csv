@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_daily_bom_user,daily.bom user,model_daily_bom,base.group_user,1,1,1,1
+access_daily_bom_line_user,daily.bom.line user,model_daily_bom_line,base.group_user,1,1,1,1
+access_quality_measure_user,quality.measure.user,model_quality_measure,base.group_user,1,1,1,1
+access_quality_test_user,quality.test.user,model_quality_test,base.group_user,1,1,1,1
+

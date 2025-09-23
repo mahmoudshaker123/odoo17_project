@@ -1,0 +1,23 @@
+<odoo>
+    <!-- Root Menu -->
+    <menuitem
+            id="maintenance_contracts_root_menu"
+            name="Maintenance Contracts"
+            sequence="0"
+    />
+    <!-- Child Menus -->
+    <menuitem
+            id="maintenance_menu"
+            name="Maintenance"
+            parent="maintenance_contracts_root_menu"
+            action="action_maintenance_contract"
+            sequence="10"
+    />
+    <menuitem
+            id="configuration_menu"
+            name="Categories"
+            parent="maintenance_contracts_root_menu"
+            action="category_action"
+            sequence="20"/>
+
+</odoo>

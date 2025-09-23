@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_maintenance_contract_tree" model="ir.ui.view">
+        <field name="name">maintenance.contract.tree</field>
+        <field name="model">maintenance.contract</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Contracts">
+                <field name="customer_name"/>
+                <field name="contract_description"/>
+                <field name="category"/>
+                <field name="contract_date"/>
+                <field name="next_addition_date"/>
+                <field name="billing_type"/>
+                <field name="payment_timing"/>
+                <field name="employee_name"/>
+                <field name="state"
+                       widget="badge"
+                       decoration-primary="state == 'draft'"
+                       decoration-info="state == 'upcoming'"
+                       decoration-success="state == 'active'"
+                       decoration-warning="state == 'nearly_expired'"
+                       decoration-danger="state == 'expired'" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_maintenance_contract_search" model="ir.ui.view">
+        <field name="name">maintenance.contract.search</field>
+        <field name="model">maintenance.contract</field>
+        <field name="arch" type="xml">
+            <search string="Search Maintenance Contracts">
+                <field name="state"/>
+                <field name="category"/>
+                <field name="employee_name"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_maintenance_contract_form" model="ir.ui.view">
+        <field name="name">maintenance.contract.form</field>
+        <field name="model">maintenance.contract</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Contract">
+                <header>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,upcoming,active,nearly_expired,expired"/>
+                </header>
+                <sheet>
+                    <group string="Contract Information" colspan="2">
+                        <group>
+                            <field name="customer_name"/>
+                            <field name="contract_description"/>
+                            <field name="category"/>
+                            <field name="contract_date"/>
+                        </group>
+                        <group>
+                            <field name="total_cost"/>
+                            <field name="vatt" widget="percentage"/>
+                            <field name="price_with_vat" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Renewal Information" colspan="2">
+                        <group>
+                            <field name="next_addition_date"/>
+                            <field name="vat" widget="percentage"/>
+                            <field name="total_price_with_inc" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="employee_name"/>
+                            <field name="reminder_email"/>
+                            <field name="billing_type"/>
+                            <field name="payment_timing"/>
+
+                        </group>
+                    </group>
+
+                    <group string="Attachments">
+                        <field name="attachment_ids">
+                            <tree>
+                                <field name="name"/>
+                                <field name="file_name"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="file_data" filename="file_name"/>
+                                    <field name="file_name"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+
+                    <div class="oe_chatter">
+                        <field name="message_ids" widget="mail_thread"
+                               options="{'message_model': 'maintenance.contract'}"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_maintenance_contract" model="ir.actions.act_window">
+        <field name="name">Maintenance Contracts</field>
+        <field name="res_model">maintenance.contract</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_maintenance_contract_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first maintenance contract!
+            </p>
+        </field>
+    </record>
+
+
+                    <!-- cron -->
+            <record id="check_contract_expiry_cron" model="ir.cron">
+                    <field name="name">Maintenance Contract: Expiry Reminder</field>
+                    <field name="model_id" ref="model_maintenance_contract"/>
+                    <field name="state">code</field>
+                    <field name="code">model.send_remind_email()</field>
+                    <field name="interval_number">1</field>
+                    <field name="interval_type">days</field>
+                    <field name="numbercall">-1</field>
+                    <field name="active">True</field>
+                </record>
+
+                <record id="cron_send_billing_invoice_reminder" model="ir.cron">
+                    <field name="name">Maintenance Contract: Billing Invoice Reminder</field>
+                    <field name="model_id" ref="model_maintenance_contract"/>
+                    <field name="state">code</field>
+                    <field name="code">model.send_billing_invoice_reminder()</field>
+                    <field name="interval_number">1</field>
+                    <field name="interval_type">days</field>
+                    <field name="numbercall">-1</field>
+                    <field name="active">True</field>
+                </record>
+
+
+
+
+
+
+    <!-- Menu -->
+    <menuitem id="menu_maintenance_contract" name="Maintenance Contracts"
+              parent="base.menu_custom"
+              action="action_maintenance_contract"/>
+</odoo>
+
+

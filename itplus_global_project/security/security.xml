@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- فئة الصلاحيات الخاصة بمشروع الفوسفات -->
+    <record id="global_phosphate_category" model="ir.module.category">
+        <field name="name">Global Phosphate</field>
+        <field name="description">Security groups related to Global Phosphate Approval and Management</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <!-- مجموعة المدير التنفيذي (CEO) -->
+    <record id="group_ceo_approval" model="res.groups">
+        <field name="name">CEO </field>
+        <field name="category_id" ref="itplus_global_project.global_phosphate_category"/>
+    </record>
+
+    <!-- مجموعة مدير المصنع (Plant Director) -->
+    <record id="group_plant_director_approval" model="res.groups">
+        <field name="name">Plant Director </field>
+        <field name="category_id" ref="itplus_global_project.global_phosphate_category"/>
+    </record>
+
+</odoo>

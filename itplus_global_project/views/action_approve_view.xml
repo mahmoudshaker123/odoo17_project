@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record id="view_sale_order_form_inherit_approval" model="ir.ui.view">
+    <field name="name">sale.order.form.group.approval</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+        <xpath expr="//form/header/field[@name='state']" position="after">
+            <field name="approval_state" invisible="1"/>
+
+            <button name="action_approve"
+                    string="Approve"
+                    type="object"
+                    class="btn-primary"
+                    groups="itplus_global_project.group_ceo_approval,itplus_global_project.group_plant_director_approval"
+                    invisible="approval_state in ('approved','rejected')"
+
+            />
+
+            <button name="action_reject"
+                    string="Reject"
+                    type="object"
+                    class="btn-danger"
+                    groups="itplus_global_project.group_ceo_approval,itplus_global_project.group_plant_director_approval"
+                    invisible="approval_state in ('approved','rejected')"
+            />
+
+        </xpath>
+    </field>
+</record>
+
+    </data>
+</odoo>

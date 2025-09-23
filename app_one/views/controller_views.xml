@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="sale_details_page" name="Sale Details">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .sale-details-container {
+    background: #f5f7fa;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Cairo', 'Noto Sans Arabic', Roboto, Oxygen, Ubuntu, sans-serif;
+    direction: rtl;
+  }
+  
+  /* Header Section */
+  .header-section {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .header-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  
+  .header-content {
+    position: relative;
+    z-index: 1;
+    padding: 60px 20px;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .header-content h3 {
+    color: white;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+    animation: fadeInDown 0.8s ease;
+  }
+  
+  .header-content p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.25rem;
+    font-weight: 300;
+    animation: fadeInUp 0.8s ease;
+  }
+  
+  /* Container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  
+  /* Stats Cards */
+  .stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin: -40px auto 40px;
+    max-width: 1200px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+  
+  .stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 20px;
+    font-size: 24px;
+  }
+  
+  .stat-icon.orders {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+  }
+  
+  .stat-icon.customers {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+  }
+  
+  .stat-icon.revenue {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+  }
+  
+  .stat-content h4 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 5px;
+  }
+  
+  .stat-content p {
+    color: #7f8c8d;
+    font-size: 1rem;
+  }
+  
+  /* Table Section */
+  .sale-table-container {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 40px;
+  }
+  
+  .table-header {
+    background: #fff;
+    padding: 25px 30px;
+    border-bottom: 1px solid #f0f2f5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .table-header h4 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+  }
+  
+  .search-box {
+    position: relative;
+    width: 300px;
+  }
+  
+  .search-box input {
+    width: 100%;
+    padding: 10px 40px 10px 15px;
+    border: 2px solid #e8ecef;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+  
+  .search-box input:focus {
+    outline: none;
+    border-color: #1e3c72;
+    box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+  }
+  
+  .search-box::after {
+    content: '🔍';
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #95a5a6;
+  }
+  
+  .sale-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+  .sale-table thead {
+    background: #fafbfc;
+  }
+  
+  .sale-table thead th {
+    padding: 20px 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: right;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #e8ecef;
+  }
+  
+  .sale-table tbody tr {
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .sale-table tbody tr:hover {
+    background-color: #f8fafc;
+  }
+  
+  .sale-table tbody td {
+    padding: 20px 25px;
+    text-align: right;
+    font-size: 1rem;
+    color: #475569;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  
+  .order-number {
+    font-weight: 600;
+    color: #1e3c72;
+    font-size: 1.05rem;
+  }
+  
+  .customer-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .customer-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  
+  .date-cell {
+    color: #64748b;
+    font-size: 0.95rem;
+  }
+  
+  .state-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: capitalize;
+  }
+  
+  .state-draft {
+    background: #fef3c7;
+    color: #d97706;
+  }
+  
+  .state-sent {
+    background: #dbeafe;
+    color: #2563eb;
+  }
+  
+  .state-sale {
+    background: #d1fae5;
+    color: #059669;
+  }
+  
+  .state-done {
+    background: #e9d5ff;
+    color: #7c3aed;
+  }
+  
+  .state-cancel {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+  
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 80px 20px;
+  }
+  
+  .empty-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 25px;
+    background: #f3f4f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+  }
+  
+  .empty-state h4 {
+    font-size: 1.6rem;
+    color: #1f2937;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  .empty-state p {
+    color: #6b7280;
+    font-size: 1.05rem;
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  /* Form Section */
+  .form-section {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  .form-header {
+    text-align: center;
+    margin-bottom: 35px;
+  }
+  
+  .form-header h5 {
+    font-size: 1.8rem;
+    color: #1f2937;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  
+  .form-header p {
+    color: #6b7280;
+    font-size: 1rem;
+  }
+  
+  .form-group {
+    margin-bottom: 25px;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #374151;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f9fafb;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: #1e3c72;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+  }
+  
+  .form-input::placeholder {
+    color: #9ca3af;
+  }
+  
+  .submit-btn {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto 0;
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .submit-btn:hover::before {
+    left: 100%;
+  }
+  
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(30, 60, 114, 0.3);
+  }
+  
+  .submit-btn:active {
+    transform: translateY(0);
+  }
+  
+  /* Animations */
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .header-content h3 {
+      font-size: 2rem;
+    }
+    
+    .header-content p {
+      font-size: 1rem;
+    }
+    
+    .stats-cards {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+    
+    .table-header {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .search-box {
+      width: 100%;
+    }
+    
+    .sale-table thead th,
+    .sale-table tbody td {
+      padding: 15px;
+      font-size: 0.9rem;
+    }
+    
+    .customer-avatar {
+      display: none;
+    }
+    
+    .form-section {
+      padding: 25px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .sale-table thead th:nth-child(3),
+    .sale-table tbody td:nth-child(3) {
+      display: none;
+    }
+  }
+</style>
+
+<t t-call="web.layout">
+  <div class="sale-details-container">
+    
+    <!-- Header Section -->
+    <div class="header-section">
+      <div class="header-content">
+        <h3>تفاصيل طلبات البيع</h3>
+        <p>عرض وإدارة جميع طلبات البيع في النظام</p>
+      </div>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="stats-cards">
+      <div class="stat-card">
+        <div class="stat-icon orders">📦</div>
+        <div class="stat-content">
+          <h4><t t-esc="len(details)"/></h4>
+          <p>إجمالي الطلبات</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon customers">👥</div>
+        <div class="stat-content">
+          <h4><t t-esc="len(set([d.partner_id.id for d in details]))"/></h4>
+          <p>عدد العملاء</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon revenue">📈</div>
+        <div class="stat-content">
+          <h4><t t-esc="len([d for d in details if d.state == 'sale'])"/></h4>
+          <p>طلبات مؤكدة</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Main Container -->
+     <div class="container">
+
+      <!-- Table Section -->
+      <div class="sale-table-container">
+        <div class="table-header">
+          <h4>قائمة الطلبات</h4>
+          <div class="search-box">
+            <input type="text" placeholder="بحث في الطلبات..." />
+          </div>
+        </div>
+        
+        <table class="sale-table">
+          <thead>
+            <tr>
+              <th>رقم الطلب</th>
+              <th>العميل</th>
+              <th>التاريخ</th>
+              <th>الحالة</th>
+            </tr>
+          </thead>
+                                            <tbody>
+            <t t-foreach="details" t-as="order">
+              <tr>
+                <td>
+                  <span class="order-number" t-esc="order.name"/>
+                </td>
+                <td>
+                  <div class="customer-name">
+                    <div class="customer-avatar">
+                      <t t-esc="order.partner_id.name[0]"/>
+                    </div>
+                    <span t-esc="order.partner_id.name"/>
+                  </div>
+                </td>
+                <td>
+                  <span class="date-cell" t-esc="order.date_order"/>
+                </td>
+                <td>
+                  <span t-attf-class="state-badge state-#{order.state}" t-esc="order.state"/>
+                </td>
+              </tr>
+            </t>
+            <t t-if="not details">
+              <tr>
+                <td colspan="4" class="empty-state">
+                  <div class="empty-icon">🛒</div>
+                  <h4>لا توجد طلبات بيع</h4>
+                  <p>لم يتم العثور على أي طلبات بيع في النظام حتى الآن</p>
+                </td>
+                                                 </tr>
+                                                </t>
+                                             </tbody>
+                                           </table>
+                                      </div>
+
+      <!-- Form Section -->
+      <div class="form-section">
+        <div class="form-header">
+          <h5>إضافة طلب جديد</h5>
+          <p>قم بإنشاء طلب بيع جديد في النظام</p>
+        </div>
+        
+        <form method="post" action="/new_request_submit">
+          <div class="form-group">
+            <label class="form-label">اسم الطلب</label>
+            <input type="text" name="st_name" id="st_name" class="form-input" placeholder="أدخل اسم الطلب الجديد" required="required"/>
+          </div>
+          
+          <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+          
+          <button type="submit" class="submit-btn">
+            إنشاء الطلب
+                                                         </button>
+        </form>
+                                                    </div>
+
+                                        </div>
+                                   </div>
+</t>
+
+            </template>
+
+      </odoo>

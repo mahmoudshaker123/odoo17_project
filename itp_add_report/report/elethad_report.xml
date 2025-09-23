@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="custom_label_report_action" model="ir.actions.report">
+            <field name="name">UPVC Label Report</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+            <field name="report_name">itp_add_report.custom_label_report_template</field>
+        </record>
+    </data>
+
+    <template id="custom_label_report_template">
+        <t t-call="web.html_container">
+        <html lang="ar" dir="rtl">
+        <head>
+            <meta charset="UTF-8"/>
+            <style>
+    body {
+        font-family: 'Cairo', 'Amiri', sans-serif;
+        font-size: 12px;
+    }
+    table {
+        width: 50%;
+        border: 2px solid #000;
+        border-collapse: collapse;
+        position: absolute;
+        top: 10mm;
+        right: 10mm;
+    }
+    th, td {
+        border: 1px solid #000;
+        padding: 4px;
+        text-align: right;
+    }
+    td.label-cell {
+        font-weight: bold;
+        width: 40%;
+        color: black;
+    }
+    td.value-cell {
+        width: 60%;
+        font-weight: bold;
+        color: red;
+    }
+    .footer-row td {
+        text-align: center;
+        font-weight: bold;
+        color: black;
+    }
+    @page {
+        size: A7;
+        margin: 5mm;
+    }
+</style>
+
+
+        </head>
+        <body>
+            <table>
+                <t t-foreach="docs" t-as="o">
+                <tr>
+                    <td class="value-cell" t-esc="o.name"/>
+                    <td class="label-cell">رقم الطلبية</td>
+                </tr>
+                <tr>
+                    <td class="value-cell">..............</td>
+                    <td class="label-cell">الباركود</td>
+                </tr>
+                <tr>
+                    <td class="value-cell highlight">
+                        <t t-esc="o.order_line and o.order_line[0].name or ''"/>
+                    </td>
+                    <td class="label-cell highlight">الصنف</td>
+                </tr>
+                <tr>
+                    <td class="value-cell">..............</td>
+                    <td class="label-cell">اللون</td>
+                </tr>
+                <tr>
+                    <td class="value-cell">..............</td>
+                    <td class="label-cell">السمك</td>
+                </tr>
+                <tr>
+                    <td class="value-cell">..............</td>
+                    <td class="label-cell">المقاس</td>
+                </tr>
+                <tr>
+                    <td class="value-cell" t-esc="o.order_line and o.order_line[0].product_uom_qty"/>
+                    <td class="label-cell">العدد</td>
+                </tr>
+                <tr>
+                    <td class="value-cell">كود الموظف المعتمد للجودة</td>
+                    <td class="label-cell">مراقب الجودة</td>
+                </tr>
+                <tr class="footer-row">
+                    <td colspan="2">صنع في مصر • Made in Egypt</td>
+                </tr>
+                </t>
+            </table>
+        </body>
+        </html>
+        </t>
+    </template>
+</odoo>

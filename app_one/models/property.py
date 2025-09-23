@@ -1,8 +1,10 @@
-from email.policy import default
+import requests
 
 from odoo import models , fields , api
 from odoo.exceptions import ValidationError
 from datetime import timedelta
+
+
 
 class Property(models.Model):
     _name = 'property'
@@ -154,6 +156,20 @@ class Property(models.Model):
         action['res_id']=self.owner_id.id
         action['views']=[[view_id , 'form']]
         return  action
+
+
+    def get_properties(self):
+        payload = dict()
+        try:
+            response = requests.get('http://localhost:8069/v1/properties', data=payload)
+            if response.status_code ==200:
+                print("Successful")
+            else:
+                print("fail")
+        except Exception as error:
+            raise ValidationError(str(error))
+        print(response.content)
+
 
     def property_xlsx_report(self):
         return {
