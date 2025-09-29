@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_order_form_inherit_approval" model="ir.ui.view">
+        <field name="name">sale.order.form.approval</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+
+    <!-- الـ badge بتاع الـ Approval State -->
+    <field name="approval_state" widget="statusbar"
+           statusbar_visible="draft,to_manager,manager_rejected,to_supervisor,supervisor_rejected,approved"/>
+
+    <!-- زرار Submit to Manager -->
+    <button name="action_submit_to_manager"
+            string="Submit to Manager"
+            type="object"
+            class="btn-primary"
+            invisible="approval_state != 'draft'"
+            groups="shamsmed.group_sales_representative"/>
+
+    <!-- زرار Approve (Manager) -->
+    <button name="action_manager_approve"
+            string="Approve"
+            type="object"
+            class="btn-success"
+            invisible="approval_state != 'to_manager'"
+            groups="shamsmed.group_sales_manager"/>
+
+    <!-- زرار Reject (Manager) -->
+    <button name="action_manager_reject"
+            string="Reject"
+            type="object"
+            class="btn-warning"
+            invisible="approval_state != 'to_manager'"
+            groups="shamsmed.group_sales_manager"/>
+
+    <!-- زرار Approve (Supervisor) -->
+    <button name="action_supervisor_approve"
+            string="Approve"
+            type="object"
+            class="btn-success"
+            invisible="approval_state != 'to_supervisor'"
+            groups="shamsmed.group_sales_supervisor"/>
+
+    <!-- زرار Reject (Supervisor) -->
+    <button name="action_supervisor_reject"
+            string="Reject"
+            type="object"
+            class="btn-warning"
+            invisible="approval_state != 'to_supervisor'"
+            groups="shamsmed.group_sales_supervisor"/>
+
+    <!-- زرار Resubmit للمندوب -->
+<button name="action_resubmit"
+        string="Resubmit"
+        type="object"
+        class="btn-secondary"
+        invisible="approval_state != 'manager_rejected'"
+        groups="shamsmed.group_sales_representative"/>
+
+<!-- زرار Resubmit للمدير -->
+<button name="action_resubmit"
+        string="Resubmit"
+        type="object"
+        class="btn-secondary"
+        invisible="approval_state != 'supervisor_rejected'"
+        groups="shamsmed.group_sales_manager"/>
+
+</xpath>
+
+
+        </field>
+    </record>
+</odoo>

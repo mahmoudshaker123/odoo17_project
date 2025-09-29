@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Security Groups -->
+        <record id="group_sales_representative" model="res.groups">
+            <field name="name">Sales Representative</field>
+            <field name="category_id" ref="base.module_category_sales_sales"/>
+            <field name="comment">Can create quotations and submit to manager</field>
+        </record>
+
+        <record id="group_sales_manager" model="res.groups">
+            <field name="name">Sales Manager</field>
+            <field name="category_id" ref="base.module_category_sales_sales"/>
+            <field name="comment">Can approve/reject quotations from representatives</field>
+        </record>
+
+        <record id="group_sales_supervisor" model="res.groups">
+            <field name="name">Sales Supervisor</field>
+            <field name="category_id" ref="base.module_category_sales_sales"/>
+            <field name="comment">Can approve/reject quotations from managers</field>
+        </record>
+
+        <record id="group_sales_admin" model="res.groups">
+            <field name="name">Sales Admin</field>
+            <field name="category_id" ref="base.module_category_sales_sales"/>
+            <field name="comment">Can see everything and manage all approvals</field>
+        </record>
+
+        <!-- Record Rules for Sale Rejection History -->
+        <record id="sale_rejection_history_rule_representative" model="ir.rule">
+            <field name="name">Sales Representative: Can see own rejection history</field>
+            <field name="model_id" ref="model_sale_rejection_history"/>
+            <field name="domain_force">[
+                '|',
+                ('from_user_id', '=', user.id),
+                ('to_user_id', '=', user.id)
+            ]</field>
+            <field name="groups" eval="[(4, ref('group_sales_representative'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="sale_rejection_history_rule_manager" model="ir.rule">
+            <field name="name">Sales Manager: Can see team rejection history</field>
+            <field name="model_id" ref="model_sale_rejection_history"/>
+            <field name="domain_force">[
+                '|',
+                ('from_user_id', '=', user.id),
+                ('to_user_id', '=', user.id)
+            ]</field>
+            <field name="groups" eval="[(4, ref('group_sales_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="sale_rejection_history_rule_supervisor" model="ir.rule">
+            <field name="name">Sales Supervisor: Can see supervisor-related rejection history</field>
+            <field name="model_id" ref="model_sale_rejection_history"/>
+            <field name="domain_force">[
+                '|',
+                ('from_user_id', '=', user.id),
+                ('to_user_id', '=', user.id)
+            ]</field>
+            <field name="groups" eval="[(4, ref('group_sales_supervisor'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="sale_rejection_history_rule_admin" model="ir.rule">
+            <field name="name">Sales Admin: Can see all rejection history</field>
+            <field name="model_id" ref="model_sale_rejection_history"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_sales_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

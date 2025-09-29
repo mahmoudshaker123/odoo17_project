@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_rejection_history_representative,sale.rejection.history for representative,model_sale_rejection_history,group_sales_representative,1,0,1,0
+access_sale_rejection_history_manager,sale.rejection.history for manager,model_sale_rejection_history,group_sales_manager,1,0,1,0
+access_sale_rejection_history_supervisor,sale.rejection.history for supervisor,model_sale_rejection_history,group_sales_supervisor,1,0,1,0
+access_sale_rejection_history_admin,sale.rejection.history for admin,model_sale_rejection_history,group_sales_admin,1,1,1,1
+access_sale_rejection_wizard_representative,Sale Order Rejection Wizard for Representative,model_sale_order_rejection_wizard,group_sales_representative,1,0,1,0
+access_sale_rejection_wizard_manager,Sale Order Rejection Wizard for Manager,model_sale_order_rejection_wizard,group_sales_manager,1,0,1,0
+access_sale_rejection_wizard_supervisor,Sale Order Rejection Wizard for Supervisor,model_sale_order_rejection_wizard,group_sales_supervisor,1,0,1,0
+access_sale_rejection_wizard_admin,Sale Order Rejection Wizard for Admin,model_sale_order_rejection_wizard,group_sales_admin,1,1,1,1

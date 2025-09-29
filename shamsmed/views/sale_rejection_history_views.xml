@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Tree View -->
+        <record id="view_sale_rejection_history_tree" model="ir.ui.view">
+            <field name="name">sale.rejection.history.tree</field>
+            <field name="model">sale.rejection.history</field>
+            <field name="arch" type="xml">
+                <tree string="Rejection History" decoration-danger="state_to in ('manager_rejected','supervisor_rejected')">
+                    <field name="sale_order_id"/>
+                    <field name="from_user_id"/>
+                    <field name="to_user_id"/>
+                    <field name="reason"/>
+                    <field name="date"/>
+                    <field name="time"/>
+                    <field name="state_from"/>
+                    <field name="state_to"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="view_sale_rejection_history_form" model="ir.ui.view">
+            <field name="name">sale.rejection.history.form</field>
+            <field name="model">sale.rejection.history</field>
+            <field name="arch" type="xml">
+                <form string="Rejection Details">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="sale_order_id"/>
+                                <field name="date"/>
+                                <field name="time"/>
+                            </group>
+                            <group>
+                                <field name="from_user_id"/>
+                                <field name="to_user_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="state_from"/>
+                            <field name="state_to"/>
+                        </group>
+                        <group>
+                            <field name="reason"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_sale_rejection_history_search" model="ir.ui.view">
+            <field name="name">sale.rejection.history.search</field>
+            <field name="model">sale.rejection.history</field>
+            <field name="arch" type="xml">
+                <search string="Rejection History">
+                    <field name="sale_order_id"/>
+                    <field name="from_user_id"/>
+                    <field name="to_user_id"/>
+                    <field name="reason"/>
+
+                    <filter string="Today" name="today" domain="[('date', '=', context_today())]"/>
+                    <filter string="This Month" name="this_month" domain="[('date', '&gt;=', context_today().strftime('%%Y-%%m-01'))]"/>
+
+                    <group expand="0" string="Group By">
+                        <filter string="Quotation" name="group_quotation" context="{'group_by': 'sale_order_id'}"/>
+                        <filter string="From User" name="group_from_user" context="{'group_by': 'from_user_id'}"/>
+                        <filter string="To User" name="group_to_user" context="{'group_by': 'to_user_id'}"/>
+                        <filter string="Date" name="group_date" context="{'group_by': 'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_sale_rejection_history" model="ir.actions.act_window">
+            <field name="name">Rejection History</field>
+            <field name="res_model">sale.rejection.history</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_sale_rejection_history_tree"/>
+            <field name="search_view_id" ref="view_sale_rejection_history_search"/>
+        </record>
+
+        <!-- Menu Item under Sales -->
+        <menuitem id="menu_sale_rejection_history"
+                  name="Rejection History"
+                  parent="sale.sale_menu_root"
+                  action="action_sale_rejection_history"
+                  sequence="25"
+                  groups="shamsmed.group_sales_manager,shamsmed.group_sales_supervisor,shamsmed.group_sales_admin"/>
+
+    </data>
+</odoo>
