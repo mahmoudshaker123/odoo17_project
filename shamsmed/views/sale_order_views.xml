@@ -17,7 +17,7 @@
             type="object"
             class="btn-primary"
             invisible="approval_state != 'draft'"
-            groups="shamsmed.group_sales_representative"/>
+            groups="shamsmed.group_sales_representative ,shamsmed.group_sales_admin"/>
 
     <!-- زرار Approve (Manager) -->
     <button name="action_manager_approve"
@@ -25,7 +25,7 @@
             type="object"
             class="btn-success"
             invisible="approval_state != 'to_manager'"
-            groups="shamsmed.group_sales_manager"/>
+            groups="shamsmed.group_sales_manager,shamsmed.group_sales_admin"/>
 
     <!-- زرار Reject (Manager) -->
     <button name="action_manager_reject"
@@ -33,7 +33,7 @@
             type="object"
             class="btn-warning"
             invisible="approval_state != 'to_manager'"
-            groups="shamsmed.group_sales_manager"/>
+            groups="shamsmed.group_sales_manager,shamsmed.group_sales_admin"/>
 
     <!-- زرار Approve (Supervisor) -->
     <button name="action_supervisor_approve"
@@ -41,7 +41,7 @@
             type="object"
             class="btn-success"
             invisible="approval_state != 'to_supervisor'"
-            groups="shamsmed.group_sales_supervisor"/>
+            groups="shamsmed.group_sales_supervisor,shamsmed.group_sales_admin"/>
 
     <!-- زرار Reject (Supervisor) -->
     <button name="action_supervisor_reject"
@@ -49,7 +49,7 @@
             type="object"
             class="btn-warning"
             invisible="approval_state != 'to_supervisor'"
-            groups="shamsmed.group_sales_supervisor"/>
+            groups="shamsmed.group_sales_supervisor,shamsmed.group_sales_admin"/>
 
     <!-- زرار Resubmit للمندوب -->
 <button name="action_resubmit"
@@ -57,7 +57,7 @@
         type="object"
         class="btn-secondary"
         invisible="approval_state != 'manager_rejected'"
-        groups="shamsmed.group_sales_representative"/>
+        groups="shamsmed.group_sales_representative,shamsmed.group_sales_admin"/>
 
 <!-- زرار Resubmit للمدير -->
 <button name="action_resubmit"
@@ -65,7 +65,7 @@
         type="object"
         class="btn-secondary"
         invisible="approval_state != 'supervisor_rejected'"
-        groups="shamsmed.group_sales_manager"/>
+        groups="shamsmed.group_sales_manager,shamsmed.group_sales_admin"/>
 
 </xpath>
 

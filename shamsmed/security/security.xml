@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        
+
         <!-- Security Groups -->
         <record id="group_sales_representative" model="res.groups">
             <field name="name">Sales Representative</field>
@@ -76,6 +76,54 @@
         <record id="sale_rejection_history_rule_admin" model="ir.rule">
             <field name="name">Sales Admin: Can see all rejection history</field>
             <field name="model_id" ref="model_sale_rejection_history"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_sales_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+         <!-- Rule: Sales Representative يشوف بس الكووتيشن بتاعته -->
+        <record id="sale_order_rule_representative" model="ir.rule">
+            <field name="name">Sales Representative: Own Quotations</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_sales_representative'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Rule: Sales Manager يشوف كل الكووتيشن -->
+        <record id="sale_order_rule_manager" model="ir.rule">
+            <field name="name">Sales Manager: All Quotations</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_sales_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- Rule: Sales Supervisor يشوف كل الكووتيشن -->
+        <record id="sale_order_rule_supervisor" model="ir.rule">
+            <field name="name">Sales Supervisor: All Quotations</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_sales_supervisor'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Rule: Sales Admin يشوف ويدير كل الكووتيشن -->
+        <record id="sale_order_rule_admin" model="ir.rule">
+            <field name="name">Sales Admin: Manage All Quotations</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
             <field name="domain_force">[(1, '=', 1)]</field>
             <field name="groups" eval="[(4, ref('group_sales_admin'))]"/>
             <field name="perm_read" eval="True"/>

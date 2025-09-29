@@ -89,7 +89,7 @@
                   parent="sale.sale_menu_root"
                   action="action_sale_rejection_history"
                   sequence="25"
-                  groups="shamsmed.group_sales_manager,shamsmed.group_sales_supervisor,shamsmed.group_sales_admin"/>
+                  groups="shamsmed.group_sales_representative,shamsmed.group_sales_manager,shamsmed.group_sales_supervisor,shamsmed.group_sales_admin"/>
 
     </data>
 </odoo>
